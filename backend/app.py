@@ -9,6 +9,7 @@ import seaborn as sns
 import io
 import os
 import json
+import threading
 from sklearn.metrics import accuracy_score, f1_score, classification_report, confusion_matrix, recall_score, precision_score
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -94,6 +95,20 @@ def preprocess_text(text):
         return str(text)
 
 
+
+def delete_image_files(file_paths, delay):
+    """
+    Delete the specified image files after a certain delay.
+    """
+    def delete_files():
+        time.sleep(delay)
+        for file_path in file_paths:
+            os.remove(file_path)
+
+    deletion_thread = threading.Thread(target=delete_files)
+    deletion_thread.start()
+
+    
 ''' Function - Handles the upload of the train data CSV file
         Pass In: train data (.csv)
         Pass Out: train data, graph, column and rows count, features
@@ -283,6 +298,9 @@ def perform_logistic_regression():
         plt.show()
         plt.savefig(lg_f1_score)
         plt.close()
+
+        image_files_to_delete = [cm, lg_f1_score]
+        delete_image_files(image_files_to_delete, delay=10)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/lg.png','cm':'/static/lg_cm.png','f1':f1,'f1score':f1_score_lg,'recallscore':recall_score_lg,'precisionscore':precision_score_lg})
     
@@ -347,7 +365,7 @@ def perform_naive_bayes():
         ax.set_xlabel('Predicted Labels')
         ax.set_ylabel('True Labels')
         ax.set_title('Confusion Matrix')
-        cm = os.path.join(app.static_folder,'lg_cm.png')
+        cm = os.path.join(app.static_folder,'nb_cm.png')
         plt.show()
         plt.savefig(cm)
         plt.close()
@@ -361,6 +379,9 @@ def perform_naive_bayes():
         plt.show()
         plt.savefig(nb_f1_score)
         plt.close()
+
+        image_files_to_delete = [cm, nb_f1_score]
+        delete_image_files(image_files_to_delete, delay=10)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/nb.png','cm':'/static/nb_cm.png','f1':f1,'f1score':f1_score_nb,'recallscore':recall_score_nb,'precisionscore':precision_score_nb})
     
@@ -439,6 +460,9 @@ def perform_random_forest():
         plt.show()
         plt.savefig(rf_f1_score)
         plt.close()
+
+        image_files_to_delete = [cm, rf_f1_score]
+        delete_image_files(image_files_to_delete, delay=10)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/rf.png','cm':'/static/rf_cm.png','f1':f1,'f1score':f1_score_rf,'recallscore':recall_score_rf,'precisionscore':precision_score_rf})
     
@@ -503,7 +527,7 @@ def perform_support_vector_machine():
         ax.set_xlabel('Predicted Labels')
         ax.set_ylabel('True Labels')
         ax.set_title('Confusion Matrix')
-        cm = os.path.join(app.static_folder,'lg_cm.png')
+        cm = os.path.join(app.static_folder,'svc_cm.png')
         plt.show()
         plt.savefig(cm)
         plt.close()
@@ -517,6 +541,9 @@ def perform_support_vector_machine():
         plt.show()
         plt.savefig(svc_f1_score)
         plt.close()
+
+        image_files_to_delete = [cm, svc_f1_score]
+        delete_image_files(image_files_to_delete, delay=10)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/svc.png','cm':'/static/svc_cm.png','f1':f1,'f1score':f1_score_svc, 'recallscore':recall_score_svc,'precisionscore':precision_score_svc})
     
@@ -595,13 +622,14 @@ def perform_decision_tree():
         plt.show()
         plt.savefig(dt_f1_score)
         plt.close()
+
+        image_files_to_delete = [cm, dt_f1_score]
+        delete_image_files(image_files_to_delete, delay=10)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/dt.png','cm':'/static/dt_cm.png','f1':f1,'f1score':f1_score_dt, 'recallscore':recall_score_dt,'precisionscore':precision_score_dt})
     
     except Exception as e:
         return jsonify({'error': str(e)})
-
-    
 
 
 @app.route('/f1score', methods=['POST'])
@@ -667,6 +695,10 @@ def f1score():
     plt.savefig(precision_score_all)
     plt.close()
 
+    image_files_to_delete = [f1_score_all, recall_score_all, precision_score_all]
+    delete_image_files(image_files_to_delete, delay=10)
+   
+
     return jsonify({'success':True, 
                     'graph': '/static/f1_score_all.png',
                     'graph1': '/static/recall_score_all.png',
@@ -675,6 +707,7 @@ def f1score():
                     'f1_score_rf':recall_score_rf,
                     'f1_score_svc':recall_score_svc,
                     'f1_score_dt':recall_score_dt})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
