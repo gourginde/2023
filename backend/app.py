@@ -8,15 +8,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import io
 import os
-import json
 import threading
 from sklearn.metrics import accuracy_score, f1_score, classification_report, confusion_matrix, recall_score, precision_score
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.naive_bayes import GaussianNB
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 import time
 import nltk
@@ -26,7 +19,7 @@ import pandas as pd
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import string, re
-
+import pickle
 
 
 app = Flask(__name__, static_folder='static')
@@ -206,6 +199,7 @@ def trim_data():
     rows, columns = df_train.shape
     trim_rows = int(training_size * rows)
     df_train['req1'] = df_train['req1'].apply(preprocess_text)
+    df_train['req2'] = df_train['req2'].apply(preprocess_text)
 
     df_train_trimmed = df_train[:trim_rows]
     df_filtered_trimmed = df_train_trimmed[selected_columns]
@@ -243,17 +237,24 @@ def perform_logistic_regression():
         start = time.time()
         X = df_filtered_trimmed.drop(columns=['Label'])
         y = df_filtered_trimmed['Label']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8, random_state=42)
-        X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-        X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+        X_text = X[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
 
-        # Convert text features to vectors
-        vectorizer = CountVectorizer()
-        X_train_vectorized = vectorizer.fit_transform(X_train_text)
-        X_test_vectorized = vectorizer.transform(X_test_text)
-        model = LogisticRegression()
-        model.fit(X_train_vectorized, y_train)
-        y_pred = model.predict(X_test_vectorized)
+        # Load the logistic regression model from pickle file
+        with open('logistic_regression.pkl', 'rb') as file:
+            model = pickle.load(file)
+        # Load the vectorizer from pickle file
+        with open('vectorizer_fn.pkl', 'rb') as file:
+            vectorizer = pickle.load(file)
+
+        # Transform the test data using the vectorizer
+        X_test_vectorized = vectorizer.transform(X_text)
+
+        # Split the dataset into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X_test_vectorized, y, train_size=0.8, random_state=42)
+
+        # Predict on the test set
+        y_pred = model.predict(X_test)
+        
         stop = round(time.time() - start,4)
         accuracy = round(accuracy_score(y_test,y_pred),4)*100 
         accuracy = str(accuracy)+"%"
@@ -300,7 +301,7 @@ def perform_logistic_regression():
         plt.close()
 
         image_files_to_delete = [cm, lg_f1_score]
-        delete_image_files(image_files_to_delete, delay=10)
+        delete_image_files(image_files_to_delete, delay=7)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/lg.png','cm':'/static/lg_cm.png','f1':f1,'f1score':f1_score_lg,'recallscore':recall_score_lg,'precisionscore':precision_score_lg})
     
@@ -324,17 +325,22 @@ def perform_naive_bayes():
         start = time.time()
         X = df_filtered_trimmed.drop(columns=['Label'])
         y = df_filtered_trimmed['Label']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8, random_state=42)
-        X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-        X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+        X_text = X[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
 
-        # Convert text features to vectors
-        vectorizer = CountVectorizer()
-        X_train_vectorized = vectorizer.fit_transform(X_train_text)
-        X_test_vectorized = vectorizer.transform(X_test_text)
-        model = GaussianNB()
-        model.fit(X_train_vectorized, y_train)
-        y_pred = model.predict(X_test_vectorized)
+        # Load the logistic regression model from pickle file
+        with open('naive_bayes.pkl', 'rb') as file:
+            model = pickle.load(file)
+        # Load the vectorizer from pickle file
+        with open('vectorizer_fn.pkl', 'rb') as file:
+            vectorizer = pickle.load(file)
+
+        # Transform the test data using the vectorizer
+        X_test_vectorized = vectorizer.transform(X_text)
+
+        # Split the dataset into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X_test_vectorized, y, train_size=0.8, random_state=42)
+        y_pred = model.predict(X_test)
+
         stop = round(time.time() - start,4)
         accuracy = round(accuracy_score(y_test,y_pred),4)*100 
         accuracy = str(accuracy)+"%"
@@ -381,7 +387,7 @@ def perform_naive_bayes():
         plt.close()
 
         image_files_to_delete = [cm, nb_f1_score]
-        delete_image_files(image_files_to_delete, delay=10)
+        delete_image_files(image_files_to_delete, delay=7)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/nb.png','cm':'/static/nb_cm.png','f1':f1,'f1score':f1_score_nb,'recallscore':recall_score_nb,'precisionscore':precision_score_nb})
     
@@ -405,17 +411,22 @@ def perform_random_forest():
         start = time.time()
         X = df_filtered_trimmed.drop(columns=['Label'])
         y = df_filtered_trimmed['Label']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8, random_state=42)
-        X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-        X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+        X_text = X[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
 
-        # Convert text features to vectors
-        vectorizer = CountVectorizer()
-        X_train_vectorized = vectorizer.fit_transform(X_train_text)
-        X_test_vectorized = vectorizer.transform(X_test_text)
-        model = RandomForestClassifier()
-        model.fit(X_train_vectorized, y_train)
-        y_pred = model.predict(X_test_vectorized)
+        # Load the logistic regression model from pickle file
+        with open('random_forest.pkl', 'rb') as file:
+            model = pickle.load(file)
+        # Load the vectorizer from pickle file
+        with open('vectorizer_fn.pkl', 'rb') as file:
+            vectorizer = pickle.load(file)
+
+        # Transform the test data using the vectorizer
+        X_test_vectorized = vectorizer.transform(X_text)
+
+        # Split the dataset into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X_test_vectorized, y, train_size=0.8, random_state=42)
+        y_pred = model.predict(X_test)
+
         stop = round(time.time() - start,4)
         accuracy = round(accuracy_score(y_test,y_pred),4)*100 
         accuracy = str(accuracy)+"%"
@@ -462,7 +473,7 @@ def perform_random_forest():
         plt.close()
 
         image_files_to_delete = [cm, rf_f1_score]
-        delete_image_files(image_files_to_delete, delay=10)
+        delete_image_files(image_files_to_delete, delay=7)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/rf.png','cm':'/static/rf_cm.png','f1':f1,'f1score':f1_score_rf,'recallscore':recall_score_rf,'precisionscore':precision_score_rf})
     
@@ -486,17 +497,22 @@ def perform_support_vector_machine():
         start = time.time()
         X = df_filtered_trimmed.drop(columns=['Label'])
         y = df_filtered_trimmed['Label']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8, random_state=42)
-        X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-        X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+        X_text = X[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
 
-        # Convert text features to vectors
-        vectorizer = CountVectorizer()
-        X_train_vectorized = vectorizer.fit_transform(X_train_text)
-        X_test_vectorized = vectorizer.transform(X_test_text)
-        model = SVC()
-        model.fit(X_train_vectorized, y_train)
-        y_pred = model.predict(X_test_vectorized)
+        # Load the logistic regression model from pickle file
+        with open('svc.pkl', 'rb') as file:
+            model = pickle.load(file)
+        # Load the vectorizer from pickle file
+        with open('vectorizer_fn.pkl', 'rb') as file:
+            vectorizer = pickle.load(file)
+
+        # Transform the test data using the vectorizer
+        X_test_vectorized = vectorizer.transform(X_text)
+
+        # Split the dataset into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X_test_vectorized, y, train_size=0.8, random_state=42)
+        y_pred = model.predict(X_test)
+
         stop = round(time.time() - start,4)
         accuracy = round(accuracy_score(y_test,y_pred),4)*100 
         accuracy = str(accuracy)+"%"
@@ -543,7 +559,7 @@ def perform_support_vector_machine():
         plt.close()
 
         image_files_to_delete = [cm, svc_f1_score]
-        delete_image_files(image_files_to_delete, delay=10)
+        delete_image_files(image_files_to_delete, delay=7)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/svc.png','cm':'/static/svc_cm.png','f1':f1,'f1score':f1_score_svc, 'recallscore':recall_score_svc,'precisionscore':precision_score_svc})
     
@@ -567,17 +583,22 @@ def perform_decision_tree():
         start = time.time()
         X = df_filtered_trimmed.drop(columns=['Label'])
         y = df_filtered_trimmed['Label']
-        X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8, random_state=42)
-        X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-        X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+        X_text = X[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
 
-        # Convert text features to vectors
-        vectorizer = CountVectorizer()
-        X_train_vectorized = vectorizer.fit_transform(X_train_text)
-        X_test_vectorized = vectorizer.transform(X_test_text)
-        model = DecisionTreeClassifier()
-        model.fit(X_train_vectorized, y_train)
-        y_pred = model.predict(X_test_vectorized)
+        # Load the logistic regression model from pickle file
+        with open('decision_tree.pkl', 'rb') as file:
+            model = pickle.load(file)
+        # Load the vectorizer from pickle file
+        with open('vectorizer_fn.pkl', 'rb') as file:
+            vectorizer = pickle.load(file)
+
+        # Transform the test data using the vectorizer
+        X_test_vectorized = vectorizer.transform(X_text)
+
+        # Split the dataset into training and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X_test_vectorized, y, train_size=0.8, random_state=42)
+        y_pred = model.predict(X_test)
+
         stop = round(time.time() - start,4)
         accuracy = round(accuracy_score(y_test,y_pred),4)*100 
         accuracy = str(accuracy)+"%"
@@ -624,7 +645,7 @@ def perform_decision_tree():
         plt.close()
 
         image_files_to_delete = [cm, dt_f1_score]
-        delete_image_files(image_files_to_delete, delay=10)
+        delete_image_files(image_files_to_delete, delay=7)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/dt.png','cm':'/static/dt_cm.png','f1':f1,'f1score':f1_score_dt, 'recallscore':recall_score_dt,'precisionscore':precision_score_dt})
     
@@ -696,7 +717,7 @@ def f1score():
     plt.close()
 
     image_files_to_delete = [f1_score_all, recall_score_all, precision_score_all]
-    delete_image_files(image_files_to_delete, delay=10)
+    delete_image_files(image_files_to_delete, delay=7)
    
 
     return jsonify({'success':True, 
