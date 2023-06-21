@@ -22,7 +22,7 @@ import string, re
 import pickle
 
 
-app = Flask(__name__, static_folder='static')
+application = Flask(__name__, static_folder='static')
 
 '''Global variables'''
 df_train = None
@@ -106,7 +106,7 @@ def delete_image_files(file_paths, delay):
         Pass In: train data (.csv)
         Pass Out: train data, graph, column and rows count, features
     Endfunction '''
-@app.route('/upload/train_data', methods=['POST'])
+@application.route('/upload/train_data', methods=['POST'])
 def upload_train_data():
     global df_train
     global training_size
@@ -117,7 +117,7 @@ def upload_train_data():
 
     try:
         df_train = pd.read_csv(io.StringIO(file.read().decode('utf-8')))
-        csv_path = os.path.join(app.static_folder, 'data.csv')
+        csv_path = os.path.join(application.static_folder, 'data.csv')
         df_train.to_csv(csv_path, index=False)
         rows, columns = df_train.shape
         
@@ -135,7 +135,7 @@ def upload_train_data():
         Pass In: test data (.csv)
         Pass Out: test data, graph, column and rows count, features
     Endfunction '''  
-@app.route('/upload/test_data', methods=['POST'])
+@application.route('/upload/test_data', methods=['POST'])
 def upload_test_data():
     global df_test
     file1 = request.files['file']
@@ -157,16 +157,16 @@ def upload_test_data():
         Pass In: any data
         Pass Out: new data added in static folder with path
     Endfunction '''
-@app.route('/static/<path:path>')
+@application.route('/static/<path:path>')
 def send_static(path):
-    return send_from_directory(app.static_folder, path)
+    return send_from_directory(application.static_folder, path)
 
 
 ''' Function -  filters columns based on user input in Multiselection Bar
         Pass In: required columns
         Pass Out: selected columns array
     Endfunction '''
-@app.route('/filter_columns', methods=['POST'])
+@application.route('/filter_columns', methods=['POST'])
 def filter_columns():
     global df_train
     global selected_columns
@@ -186,7 +186,7 @@ def filter_columns():
         Pass In: dataframe
         Pass Out: preprocessed and trimmed dataframe
     Endfunction '''
-@app.route('/trim_data', methods=['POST'])
+@application.route('/trim_data', methods=['POST'])
 def trim_data():
     global df_train
     global trim_rows
@@ -195,7 +195,7 @@ def trim_data():
     global selected_columns
     global df_filtered_trimmed
 
-    csv = os.path.join(app.static_folder, 'filtered_trimmed.csv')
+    csv = os.path.join(application.static_folder, 'filtered_trimmed.csv')
     rows, columns = df_train.shape
     trim_rows = int(training_size * rows)
     df_train['req1'] = df_train['req1'].apply(preprocess_text)
@@ -221,7 +221,7 @@ def trim_data():
     Endfunction '''
 
 
-@app.route('/logistic-regression', methods=['POST'])
+@application.route('/logistic-regression', methods=['POST'])
 def perform_logistic_regression():
     global df_test
     global df_filtered_trimmed
@@ -285,7 +285,7 @@ def perform_logistic_regression():
         ax.set_xlabel('Predicted Labels')
         ax.set_ylabel('True Labels')
         ax.set_title('Confusion Matrix')
-        cm = os.path.join(app.static_folder,'lg_cm.png')
+        cm = os.path.join(application.static_folder,'lg_cm.png')
         plt.show()
         plt.savefig(cm)
         plt.close()
@@ -295,13 +295,13 @@ def perform_logistic_regression():
         plt.plot(size,acc, color='#AFD5F0')
         plt.xlabel("Training Size",color='black')
         plt.ylabel("Validation Accuracy",color='black')
-        lg_f1_score = os.path.join(app.static_folder, 'lg.png')
+        lg_f1_score = os.path.join(application.static_folder, 'lg.png')
         plt.show()
         plt.savefig(lg_f1_score)
         plt.close()
 
         image_files_to_delete = [cm, lg_f1_score]
-        delete_image_files(image_files_to_delete, delay=7)
+        delete_image_files(image_files_to_delete, delay=6)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/lg.png','cm':'/static/lg_cm.png','f1':f1,'f1score':f1_score_lg,'recallscore':recall_score_lg,'precisionscore':precision_score_lg})
     
@@ -310,7 +310,7 @@ def perform_logistic_regression():
 
     
 
-@app.route('/naive-bayes', methods=['POST'])
+@application.route('/naive-bayes', methods=['POST'])
 def perform_naive_bayes():
     global df_test
     global df_filtered_trimmed
@@ -371,7 +371,7 @@ def perform_naive_bayes():
         ax.set_xlabel('Predicted Labels')
         ax.set_ylabel('True Labels')
         ax.set_title('Confusion Matrix')
-        cm = os.path.join(app.static_folder,'nb_cm.png')
+        cm = os.path.join(application.static_folder,'nb_cm.png')
         plt.show()
         plt.savefig(cm)
         plt.close()
@@ -381,13 +381,13 @@ def perform_naive_bayes():
         plt.plot(size,acc, color='#AFD5F0')
         plt.xlabel("Training Size",color='black')
         plt.ylabel("Validation Accuracy",color='black')
-        nb_f1_score = os.path.join(app.static_folder, 'nb.png')
+        nb_f1_score = os.path.join(application.static_folder, 'nb.png')
         plt.show()
         plt.savefig(nb_f1_score)
         plt.close()
 
         image_files_to_delete = [cm, nb_f1_score]
-        delete_image_files(image_files_to_delete, delay=7)
+        delete_image_files(image_files_to_delete, delay=6)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/nb.png','cm':'/static/nb_cm.png','f1':f1,'f1score':f1_score_nb,'recallscore':recall_score_nb,'precisionscore':precision_score_nb})
     
@@ -396,7 +396,7 @@ def perform_naive_bayes():
 
     
 
-@app.route('/random-forest', methods=['POST'])
+@application.route('/random-forest', methods=['POST'])
 def perform_random_forest():
     global df_test
     global df_filtered_trimmed
@@ -457,7 +457,7 @@ def perform_random_forest():
         ax.set_xlabel('Predicted Labels')
         ax.set_ylabel('True Labels')
         ax.set_title('Confusion Matrix')
-        cm = os.path.join(app.static_folder,'rf_cm.png')
+        cm = os.path.join(application.static_folder,'rf_cm.png')
         plt.show()
         plt.savefig(cm)
         plt.close()
@@ -467,13 +467,13 @@ def perform_random_forest():
         plt.plot(size,acc, color='#AFD5F0')
         plt.xlabel("Training Size",color='black')
         plt.ylabel("Validation Accuracy",color='black')
-        rf_f1_score = os.path.join(app.static_folder, 'rf.png')
+        rf_f1_score = os.path.join(application.static_folder, 'rf.png')
         plt.show()
         plt.savefig(rf_f1_score)
         plt.close()
 
         image_files_to_delete = [cm, rf_f1_score]
-        delete_image_files(image_files_to_delete, delay=7)
+        delete_image_files(image_files_to_delete, delay=6)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/rf.png','cm':'/static/rf_cm.png','f1':f1,'f1score':f1_score_rf,'recallscore':recall_score_rf,'precisionscore':precision_score_rf})
     
@@ -482,7 +482,7 @@ def perform_random_forest():
 
 
 
-@app.route('/support-vector-machine', methods=['POST'])
+@application.route('/support-vector-machine', methods=['POST'])
 def perform_support_vector_machine():
     global df_test
     global df_filtered_trimmed
@@ -543,7 +543,7 @@ def perform_support_vector_machine():
         ax.set_xlabel('Predicted Labels')
         ax.set_ylabel('True Labels')
         ax.set_title('Confusion Matrix')
-        cm = os.path.join(app.static_folder,'svc_cm.png')
+        cm = os.path.join(application.static_folder,'svc_cm.png')
         plt.show()
         plt.savefig(cm)
         plt.close()
@@ -553,13 +553,13 @@ def perform_support_vector_machine():
         plt.plot(size,acc, color='#AFD5F0')
         plt.xlabel("Training Size",color='black')
         plt.ylabel("Validation Accuracy",color='black')
-        svc_f1_score = os.path.join(app.static_folder, 'svc.png')
+        svc_f1_score = os.path.join(application.static_folder, 'svc.png')
         plt.show()
         plt.savefig(svc_f1_score)
         plt.close()
 
         image_files_to_delete = [cm, svc_f1_score]
-        delete_image_files(image_files_to_delete, delay=7)
+        delete_image_files(image_files_to_delete, delay=6)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/svc.png','cm':'/static/svc_cm.png','f1':f1,'f1score':f1_score_svc, 'recallscore':recall_score_svc,'precisionscore':precision_score_svc})
     
@@ -568,7 +568,7 @@ def perform_support_vector_machine():
 
    
 
-@app.route('/decision-tree', methods=['POST'])
+@application.route('/decision-tree', methods=['POST'])
 def perform_decision_tree():
     global df_test
     global df_filtered_trimmed
@@ -629,7 +629,7 @@ def perform_decision_tree():
         ax.set_xlabel('Predicted Labels')
         ax.set_ylabel('True Labels')
         ax.set_title('Confusion Matrix')
-        cm = os.path.join(app.static_folder,'dt_cm.png')
+        cm = os.path.join(application.static_folder,'dt_cm.png')
         plt.show()
         plt.savefig(cm)
         plt.close()
@@ -639,13 +639,13 @@ def perform_decision_tree():
         plt.plot(size,acc, color='#AFD5F0')
         plt.xlabel("Training Size",color='black')
         plt.ylabel("Validation Accuracy",color='black')
-        dt_f1_score = os.path.join(app.static_folder, 'dt.png')
+        dt_f1_score = os.path.join(application.static_folder, 'dt.png')
         plt.show()
         plt.savefig(dt_f1_score)
         plt.close()
 
         image_files_to_delete = [cm, dt_f1_score]
-        delete_image_files(image_files_to_delete, delay=7)
+        delete_image_files(image_files_to_delete, delay=6)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/dt.png','cm':'/static/dt_cm.png','f1':f1,'f1score':f1_score_dt, 'recallscore':recall_score_dt,'precisionscore':precision_score_dt})
     
@@ -653,7 +653,7 @@ def perform_decision_tree():
         return jsonify({'error': str(e)})
 
 
-@app.route('/f1score', methods=['POST'])
+@application.route('/f1score', methods=['POST'])
 def f1score():
     global f1_score_lg
     global f1_score_nb
@@ -678,13 +678,14 @@ def f1score():
     fig = plt.figure(figsize=(4.5, 4))
     fig.patch.set_facecolor('white') 
     plt.plot(size, f1_score_lg, color='#AFD5F0', label='Logistic Regression')
+    plt.plot(size, f1_score_nb, color='#fddd5c', label='Naive Bayes')
     plt.plot(size, f1_score_rf, color='#77dd77', label='Random Forest')
     plt.plot(size, f1_score_svc, color='#ff6961', label='SVC')
     plt.plot(size, f1_score_dt, color='#3D426B', label='Decision Tree')
     plt.xlabel("Relative Training Size",color='black')
     plt.ylabel("F1 Score",color='black')
     plt.legend()
-    f1_score_all = os.path.join(app.static_folder, 'f1_score_all.png')
+    f1_score_all = os.path.join(application.static_folder, 'f1_score_all.png')
     plt.show()
     plt.savefig(f1_score_all)
   
@@ -692,32 +693,34 @@ def f1score():
     fig1 = plt.figure(figsize=(4.5, 4))
     fig1.patch.set_facecolor('white') 
     plt.plot(size, recall_score_lg, color='#AFD5F0', label='Logistic Regression')
+    plt.plot(size, recall_score_nb, color='#fddd5c', label='Naive Bayes')
     plt.plot(size, recall_score_rf, color='#77dd77', label='Random Forest')
     plt.plot(size, recall_score_svc, color='#ff6961', label='SVC')
     plt.plot(size, recall_score_dt, color='#3D426B', label='Decision Tree')
     plt.xlabel("Relative Training Size",color='black')
     plt.ylabel("Recall Score",color='black')
     plt.legend()
-    recall_score_all = os.path.join(app.static_folder, 'recall_score_all.png')
+    recall_score_all = os.path.join(application.static_folder, 'recall_score_all.png')
     plt.show()
     plt.savefig(recall_score_all)
 
     fig2 = plt.figure(figsize=(4.5, 4))
     fig2.patch.set_facecolor('white') 
     plt.plot(size, precision_score_lg, color='#AFD5F0', label='Logistic Regression')
+    plt.plot(size, precision_score_nb, color='#fddd5c', label='Naive Bayes')
     plt.plot(size, precision_score_rf, color='#77dd77', label='Random Forest')
     plt.plot(size, precision_score_svc, color='#ff6961', label='SVC')
     plt.plot(size, precision_score_dt, color='#3D426B', label='Decision Tree')
     plt.xlabel("Relative Training Size",color='black')
     plt.ylabel("Precision Score",color='black')
     plt.legend()
-    precision_score_all = os.path.join(app.static_folder, 'precision_score_all.png')
+    precision_score_all = os.path.join(application.static_folder, 'precision_score_all.png')
     plt.show()
     plt.savefig(precision_score_all)
     plt.close()
 
     image_files_to_delete = [f1_score_all, recall_score_all, precision_score_all]
-    delete_image_files(image_files_to_delete, delay=7)
+    delete_image_files(image_files_to_delete, delay=6)
    
 
     return jsonify({'success':True, 
@@ -731,4 +734,4 @@ def f1score():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    application.run(host='0.0.0.0', port=5000, debug=True)
