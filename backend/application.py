@@ -81,15 +81,14 @@ def preprocess_text(text):
     # '''Remove extra white spaces'''
     tokens = [token.strip() for token in tokens if token.strip()]
 
-    # 
-    text = text.lower()
+
     return text
   else:
         return str(text)
 
 
 
-def delete_image_files(file_paths, delay):
+def delete(file_paths, delay):
     """
     Delete the specified image files after a certain delay.
     """
@@ -203,7 +202,7 @@ def trim_data():
 
     df_train_trimmed = df_train[:trim_rows]
     df_filtered_trimmed = df_train_trimmed[selected_columns]
-    df_filtered_trimmed.to_csv(csv, index=False)
+    # df_filtered_trimmed.to_csv(csv, index=False)
 
     for column in df_filtered_trimmed.columns:
         if df_filtered_trimmed[column].dtype == object or isinstance(df_filtered_trimmed[column].dtype, pd.StringDtype):
@@ -267,13 +266,13 @@ def perform_logistic_regression():
         
         for k in range(2,10):
             k = k/10
-            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
-            X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            X_train_vectorized = vectorizer.fit_transform(X_train_text)
-            X_test_vectorized = vectorizer.transform(X_test_text)
-            model.fit(X_train_vectorized, y_train)
-            y_pred = model.predict(X_test_vectorized)
+            # X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
+            # X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            # X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            # X_train_vectorized = vectorizer.fit_transform(X_train_text)
+            # X_test_vectorized = vectorizer.transform(X_test_text)
+            # model.fit(X_train_vectorized, y_train)
+            y_pred = model.predict(X_test)
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
             f1_score_lg.append(round(f1_score(y_test,y_pred,average='macro'),2))
@@ -301,7 +300,7 @@ def perform_logistic_regression():
         plt.close()
 
         image_files_to_delete = [cm, lg_f1_score]
-        delete_image_files(image_files_to_delete, delay=6)
+        delete(image_files_to_delete, delay=7)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/lg.png','cm':'/static/lg_cm.png','f1':f1,'f1score':f1_score_lg,'recallscore':recall_score_lg,'precisionscore':precision_score_lg})
     
@@ -353,13 +352,13 @@ def perform_naive_bayes():
         
         for k in range(2,10):
             k = k/10
-            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
-            X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            X_train_vectorized = vectorizer.fit_transform(X_train_text)
-            X_test_vectorized = vectorizer.transform(X_test_text)
-            model.fit(X_train_vectorized, y_train)
-            y_pred = model.predict(X_test_vectorized)
+            # X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
+            # X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            # X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            # X_train_vectorized = vectorizer.fit_transform(X_train_text)
+            # X_test_vectorized = vectorizer.transform(X_test_text)
+            # model.fit(X_train_vectorized, y_train)
+            y_pred = model.predict(X_test)
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
             f1_score_nb.append(round(f1_score(y_test,y_pred,average='macro'),2))
@@ -387,7 +386,7 @@ def perform_naive_bayes():
         plt.close()
 
         image_files_to_delete = [cm, nb_f1_score]
-        delete_image_files(image_files_to_delete, delay=6)
+        delete(image_files_to_delete, delay=7)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/nb.png','cm':'/static/nb_cm.png','f1':f1,'f1score':f1_score_nb,'recallscore':recall_score_nb,'precisionscore':precision_score_nb})
     
@@ -439,13 +438,13 @@ def perform_random_forest():
         
         for k in range(2,10):
             k = k/10
-            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
-            X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            X_train_vectorized = vectorizer.fit_transform(X_train_text)
-            X_test_vectorized = vectorizer.transform(X_test_text)
-            model.fit(X_train_vectorized, y_train)
-            y_pred = model.predict(X_test_vectorized)
+            # X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
+            # X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            # X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            # X_train_vectorized = vectorizer.fit_transform(X_train_text)
+            # X_test_vectorized = vectorizer.transform(X_test_text)
+            # model.fit(X_train_vectorized, y_train)
+            y_pred = model.predict(X_test)
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
             f1_score_rf.append(round(f1_score(y_test,y_pred,average='macro'),2))
@@ -473,7 +472,7 @@ def perform_random_forest():
         plt.close()
 
         image_files_to_delete = [cm, rf_f1_score]
-        delete_image_files(image_files_to_delete, delay=6)
+        delete(image_files_to_delete, delay=7)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/rf.png','cm':'/static/rf_cm.png','f1':f1,'f1score':f1_score_rf,'recallscore':recall_score_rf,'precisionscore':precision_score_rf})
     
@@ -525,13 +524,13 @@ def perform_support_vector_machine():
         
         for k in range(2,10):
             k = k/10
-            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
-            X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            X_train_vectorized = vectorizer.fit_transform(X_train_text)
-            X_test_vectorized = vectorizer.transform(X_test_text)
-            model.fit(X_train_vectorized, y_train)
-            y_pred = model.predict(X_test_vectorized)
+            # X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
+            # X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            # X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            # X_train_vectorized = vectorizer.fit_transform(X_train_text)
+            # X_test_vectorized = vectorizer.transform(X_test_text)
+            # model.fit(X_train_vectorized, y_train)
+            y_pred = model.predict(X_test)
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
             f1_score_svc.append(round(f1_score(y_test,y_pred,average='macro'),2))
@@ -559,7 +558,7 @@ def perform_support_vector_machine():
         plt.close()
 
         image_files_to_delete = [cm, svc_f1_score]
-        delete_image_files(image_files_to_delete, delay=6)
+        delete(image_files_to_delete, delay=7)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/svc.png','cm':'/static/svc_cm.png','f1':f1,'f1score':f1_score_svc, 'recallscore':recall_score_svc,'precisionscore':precision_score_svc})
     
@@ -611,13 +610,13 @@ def perform_decision_tree():
         
         for k in range(2,10):
             k = k/10
-            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
-            X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            X_train_vectorized = vectorizer.fit_transform(X_train_text)
-            X_test_vectorized = vectorizer.transform(X_test_text)
-            model.fit(X_train_vectorized, y_train)
-            y_pred = model.predict(X_test_vectorized)
+            # X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
+            # X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            # X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            # X_train_vectorized = vectorizer.fit_transform(X_train_text)
+            # X_test_vectorized = vectorizer.transform(X_test_text)
+            # model.fit(X_train_vectorized, y_train)
+            y_pred = model.predict(X_test)
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
             f1_score_dt.append(round(f1_score(y_test,y_pred,average='macro'),2))
@@ -645,7 +644,7 @@ def perform_decision_tree():
         plt.close()
 
         image_files_to_delete = [cm, dt_f1_score]
-        delete_image_files(image_files_to_delete, delay=6)
+        delete(image_files_to_delete, delay=7)
         
         return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/dt.png','cm':'/static/dt_cm.png','f1':f1,'f1score':f1_score_dt, 'recallscore':recall_score_dt,'precisionscore':precision_score_dt})
     
@@ -678,7 +677,6 @@ def f1score():
     fig = plt.figure(figsize=(4.5, 4))
     fig.patch.set_facecolor('white') 
     plt.plot(size, f1_score_lg, color='#AFD5F0', label='Logistic Regression')
-    plt.plot(size, f1_score_nb, color='#fddd5c', label='Naive Bayes')
     plt.plot(size, f1_score_rf, color='#77dd77', label='Random Forest')
     plt.plot(size, f1_score_svc, color='#ff6961', label='SVC')
     plt.plot(size, f1_score_dt, color='#3D426B', label='Decision Tree')
@@ -693,7 +691,6 @@ def f1score():
     fig1 = plt.figure(figsize=(4.5, 4))
     fig1.patch.set_facecolor('white') 
     plt.plot(size, recall_score_lg, color='#AFD5F0', label='Logistic Regression')
-    plt.plot(size, recall_score_nb, color='#fddd5c', label='Naive Bayes')
     plt.plot(size, recall_score_rf, color='#77dd77', label='Random Forest')
     plt.plot(size, recall_score_svc, color='#ff6961', label='SVC')
     plt.plot(size, recall_score_dt, color='#3D426B', label='Decision Tree')
@@ -707,7 +704,6 @@ def f1score():
     fig2 = plt.figure(figsize=(4.5, 4))
     fig2.patch.set_facecolor('white') 
     plt.plot(size, precision_score_lg, color='#AFD5F0', label='Logistic Regression')
-    plt.plot(size, precision_score_nb, color='#fddd5c', label='Naive Bayes')
     plt.plot(size, precision_score_rf, color='#77dd77', label='Random Forest')
     plt.plot(size, precision_score_svc, color='#ff6961', label='SVC')
     plt.plot(size, precision_score_dt, color='#3D426B', label='Decision Tree')
@@ -720,7 +716,7 @@ def f1score():
     plt.close()
 
     image_files_to_delete = [f1_score_all, recall_score_all, precision_score_all]
-    delete_image_files(image_files_to_delete, delay=6)
+    delete(image_files_to_delete, delay=7)
    
 
     return jsonify({'success':True, 
