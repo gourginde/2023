@@ -31,7 +31,7 @@ const MLdropdown = ({ onModelSelect, trainData, testData }) => {
   
     if (selectedValue === 'logistic_regression') {
       try {
-        const response = await axios.post('http://3.86.250.113/logistic-regression');
+        const response = await axios.post('http://3.86.250.113:5000/logistic-regression');
         console.log(response.data);
         if (response.data.success) {
           setReport(response.data.report);
@@ -47,7 +47,7 @@ const MLdropdown = ({ onModelSelect, trainData, testData }) => {
     }
     else if (selectedValue === 'naive_bayes') {
       try {
-        const response = await axios.post('http://3.86.250.113/naive-bayes');
+        const response = await axios.post('http://3.86.250.113:5000/naive-bayes');
         console.log(response.data);
         if (response.data.success) {
           setReport(response.data.report);
@@ -64,7 +64,7 @@ const MLdropdown = ({ onModelSelect, trainData, testData }) => {
     }
     else if (selectedValue === 'random_forest') {
       try {
-        const response = await axios.post('http://3.86.250.113/random-forest');
+        const response = await axios.post('http://3.86.250.113:5000/random-forest');
         console.log(response.data);
         if (response.data.success) {
           setReport(response.data.report);
@@ -80,7 +80,7 @@ const MLdropdown = ({ onModelSelect, trainData, testData }) => {
     }
     else if (selectedValue === 'support_vector_machine') {
       try {
-        const response = await axios.post('http://3.86.250.113/support-vector-machine');
+        const response = await axios.post('http://3.86.250.113:5000/support-vector-machine');
         console.log(response.data);
         if (response.data.success) {
           setReport(response.data.report);
@@ -96,7 +96,7 @@ const MLdropdown = ({ onModelSelect, trainData, testData }) => {
     }
     else if (selectedValue === 'decision_tree') {
       try {
-        const response = await axios.post('http://3.86.250.113/decision-tree');
+        const response = await axios.post('http://3.86.250.113:5000/decision-tree');
         console.log(response.data);
         if (response.data.success) {
           setReport(response.data.report);
