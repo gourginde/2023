@@ -1,6 +1,7 @@
 ''' Functions - Import CSV API, Preprocessing Textual Data Api, ML Model Selection API, '''
 
 from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
@@ -23,6 +24,7 @@ import pickle
 
 
 application = Flask(__name__, static_folder='static')
+CORS(application)
 
 '''Global variables'''
 df_train = None
@@ -352,12 +354,12 @@ def perform_naive_bayes():
         
         for k in range(2,10):
             k = k/10
-            # X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
-            # X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            # X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            # X_train_vectorized = vectorizer.fit_transform(X_train_text)
-            # X_test_vectorized = vectorizer.transform(X_test_text)
-            # model.fit(X_train_vectorized, y_train)
+            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
+            X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            X_train_vectorized = vectorizer.fit_transform(X_train_text)
+            X_test_vectorized = vectorizer.transform(X_test_text)
+            model.fit(X_train_vectorized, y_train)
             y_pred = model.predict(X_test)
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
@@ -438,12 +440,12 @@ def perform_random_forest():
         
         for k in range(2,10):
             k = k/10
-            # X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
-            # X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            # X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            # X_train_vectorized = vectorizer.fit_transform(X_train_text)
-            # X_test_vectorized = vectorizer.transform(X_test_text)
-            # model.fit(X_train_vectorized, y_train)
+            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
+            X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            X_train_vectorized = vectorizer.fit_transform(X_train_text)
+            X_test_vectorized = vectorizer.transform(X_test_text)
+            model.fit(X_train_vectorized, y_train)
             y_pred = model.predict(X_test)
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
@@ -524,12 +526,12 @@ def perform_support_vector_machine():
         
         for k in range(2,10):
             k = k/10
-            # X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
-            # X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            # X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            # X_train_vectorized = vectorizer.fit_transform(X_train_text)
-            # X_test_vectorized = vectorizer.transform(X_test_text)
-            # model.fit(X_train_vectorized, y_train)
+            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
+            X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            X_train_vectorized = vectorizer.fit_transform(X_train_text)
+            X_test_vectorized = vectorizer.transform(X_test_text)
+            model.fit(X_train_vectorized, y_train)
             y_pred = model.predict(X_test)
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
@@ -610,12 +612,12 @@ def perform_decision_tree():
         
         for k in range(2,10):
             k = k/10
-            # X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
-            # X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            # X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
-            # X_train_vectorized = vectorizer.fit_transform(X_train_text)
-            # X_test_vectorized = vectorizer.transform(X_test_text)
-            # model.fit(X_train_vectorized, y_train)
+            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = k, random_state=42)
+            X_train_text = X_train[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            X_test_text = X_test[text_columns].apply(lambda x: ' '.join(x.dropna()), axis=1)
+            X_train_vectorized = vectorizer.fit_transform(X_train_text)
+            X_test_vectorized = vectorizer.transform(X_test_text)
+            model.fit(X_train_vectorized, y_train)
             y_pred = model.predict(X_test)
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
