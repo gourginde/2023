@@ -718,7 +718,7 @@ def f1score():
     plt.close()
 
     image_files_to_delete = [f1_score_all, recall_score_all, precision_score_all]
-    delete(image_files_to_delete, delay=7)
+    delete(image_files_to_delete, delay=15)
    
 
     return jsonify({'success':True, 
