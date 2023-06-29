@@ -3,11 +3,12 @@
         Pass Out: graphs
     Endfunction */
 import React, { useEffect, useState } from 'react';
+import './Results.css'
 
 const Results = () => {
-  const [graph, setGraph] = useState(false);
-  const [graph1, setGraph_recall] = useState(false);
-  const [graph2, setGraph_precision] = useState(false);
+  const [graph, setGraph] = useState(null);
+  const [graph1, setGraph_recall] = useState(null);
+  const [graph2, setGraph_precision] = useState(null);
 
   useEffect(() => {
     fetchF1Score();
