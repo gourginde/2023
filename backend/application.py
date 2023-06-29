@@ -196,7 +196,6 @@ def trim_data():
     global selected_columns
     global df_filtered_trimmed
 
-    csv = os.path.join(application.static_folder, 'filtered_trimmed.csv')
     rows, columns = df_train.shape
     trim_rows = int(training_size * rows)
     df_train['req1'] = df_train['req1'].apply(preprocess_text)
