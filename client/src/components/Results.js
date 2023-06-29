@@ -3,7 +3,6 @@
         Pass Out: graphs
     Endfunction */
 import React, { useEffect, useState } from 'react';
-import './Results.css'
 
 const Results = () => {
   const [graph, setGraph] = useState(null);
