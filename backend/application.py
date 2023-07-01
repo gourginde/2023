@@ -203,7 +203,6 @@ def trim_data():
 
     df_train_trimmed = df_train[:trim_rows]
     df_filtered_trimmed = df_train_trimmed[selected_columns]
-    # df_filtered_trimmed.to_csv(csv, index=False)
 
     for column in df_filtered_trimmed.columns:
         if df_filtered_trimmed[column].dtype == object or isinstance(df_filtered_trimmed[column].dtype, pd.StringDtype):
@@ -653,6 +652,35 @@ def perform_decision_tree():
         return jsonify({'error': str(e)})
 
 
+@application.route('/weekly-supervised', methods=['POST'])
+def weekly_supervised():
+    global df_test
+    global df_filtered_trimmed
+
+    try:
+        X = df_filtered_trimmed.drop(columns=['Label'])
+        y = df_filtered_trimmed['Label']
+        testChcek = "testing active-learning working"
+        return jsonify({'success': True, 'testChcek' : testChcek})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+    
+
+@application.route('/active-learning', methods=['POST'])
+def active_learning():
+    global df_test
+    global df_filtered_trimmed
+
+    try:
+        X = df_filtered_trimmed.drop(columns=['Label'])
+        y = df_filtered_trimmed['Label']
+        testChcek = "testing weekly supervised model working"
+        return jsonify({'success': True, 'testChcek' : testChcek})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+
+# evaluation metrics
 @application.route('/f1score', methods=['POST'])
 def f1score():
     global f1_score_lg
@@ -680,8 +708,8 @@ def f1score():
     plt.plot(size, f1_score_lg, color='#AFD5F0', label='Logistic Regression')
     plt.plot(size, f1_score_nb, color='#FDFD96', label='Naive Bayes')
     plt.plot(size, f1_score_rf, color='#77dd77', label='Random Forest')
-    plt.plot(size, f1_score_svc, color='#ff6961', label='SVC')
-    plt.plot(size, f1_score_dt, color='#3D426B', label='Decision Tree')
+    plt.plot(size, f1_score_svc, color='#AFD5F0', label='SVC',linestyle='dashed')
+    plt.plot(size, f1_score_dt, color='#77dd77', label='Decision Tree',linestyle='dashed')
     plt.xlabel("Relative Training Size",color='black')
     plt.ylabel("F1 Score",color='black')
     plt.legend()
@@ -695,8 +723,8 @@ def f1score():
     plt.plot(size, recall_score_lg, color='#AFD5F0', label='Logistic Regression')
     plt.plot(size, recall_score_nb, color='#FDFD96', label='Naive Bayes')
     plt.plot(size, recall_score_rf, color='#77dd77', label='Random Forest')
-    plt.plot(size, recall_score_svc, color='#ff6961', label='SVC')
-    plt.plot(size, recall_score_dt, color='#3D426B', label='Decision Tree')
+    plt.plot(size, recall_score_svc, color='#AFD5F0', label='SVC',linestyle='dashed')
+    plt.plot(size, recall_score_dt, color='#77dd77', label='Decision Tree',linestyle='dashed')
     plt.xlabel("Relative Training Size",color='black')
     plt.ylabel("Recall Score",color='black')
     plt.legend()
@@ -709,8 +737,8 @@ def f1score():
     plt.plot(size, precision_score_lg, color='#AFD5F0', label='Logistic Regression')
     plt.plot(size, precision_score_nb, color='#FDFD96', label='Naive Bayes')
     plt.plot(size, precision_score_rf, color='#77dd77', label='Random Forest')
-    plt.plot(size, precision_score_svc, color='#ff6961', label='SVC')
-    plt.plot(size, precision_score_dt, color='#3D426B', label='Decision Tree')
+    plt.plot(size, precision_score_svc, color='#AFD5F0', label='SVC',linestyle='dashed')
+    plt.plot(size, precision_score_dt, color='#77dd77', label='Decision Tree',linestyle='dashed')
     plt.xlabel("Relative Training Size",color='black')
     plt.ylabel("Precision Score",color='black')
     plt.legend()
@@ -731,3 +759,4 @@ def f1score():
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0', port=5000, debug=True)
+CORS(application)

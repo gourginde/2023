@@ -5,6 +5,7 @@
   justify-content: center;
   margin-top: 10px;
   margin-bottom: 20px;
+  
 }
 
 .progress-bar {
@@ -13,9 +14,8 @@
   align-items: center;
   height: 90px;
   width: 500px;
-  background-color: darkgray;
-  border-radius: 40px;
-  padding: 5px;
+  background-color: lightblue;
+  width: 1200px;
   
 }
 
@@ -23,16 +23,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80px;
-  width: 10px; /* Update width to match height */
-  background-color: lightgray;
-  color: black;
+  height: 60px;
+  width: 80px; 
+  background-color: white;
+  color: #222222;
   font-weight: bold;
-  border-radius: 50%;
+  border-right: 2px solid lightblue;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
 }
 
 .step.active {
-  background-color: #ffb347;
+  background-color: lightblue;
 }
 .next-button {
   position: fixed;
