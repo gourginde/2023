@@ -19,15 +19,13 @@ const ProgressBar = ({ steps, currentStep, onNext }) => {
             {index !== steps.length - 1 && (
               <div className="step-line"></div>
             )}
-            <div className="step-circle">
+            <div className="step-square">
               <span className="step-label">{step}</span>
             </div>
           </div>
         ))}
       </div>
-      <button className="next-button" onClick={onNext}>
-        Next
-      </button>
+      
     </div>
   );
 };

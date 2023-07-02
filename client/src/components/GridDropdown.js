@@ -5,7 +5,7 @@ Functionality
 */
 
 import React, { useState } from 'react';
-import './GridDropdown.css'
+import './GridDropdown.css';
 
 const Dropdown = ({ options, onSelect }) => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -17,6 +17,7 @@ const Dropdown = ({ options, onSelect }) => {
 
   return (
     <div className="grid-dropdown">
+      
       {options.map((option) => (
         <div
           key={option.value}
@@ -26,6 +27,7 @@ const Dropdown = ({ options, onSelect }) => {
           {option.label}
         </div>
       ))}
+      
     </div>
   );
 };
