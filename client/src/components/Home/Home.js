@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
+import research from '../../assets/images/research.jpg';
 
 const Home = () => {
     const navigate = useNavigate();
     const [displayText, setDisplayText] = useState('');
-    const text = 'ROI';
+    const text = 'SmartLearningROI\n Unleash Your Potential';
 
     useEffect(() => {
         let currentIndex = 0;
@@ -38,22 +39,20 @@ const Home = () => {
         <>
             <div className="relative-wrapper">
                 <div className="dark-overlay"></div>
-                <img src="/research.jpg" alt="Home" className="background-image" />
+                <img src={research} alt="Home" className="background-image" />
                 <div className="typewriter-text">
-                    {displayText}
+                    {displayText.split('\n').map((item, key) => {
+                        return <span key={key}>{item}<br/></span>
+                    })}
                 </div>
             </div>
-
+    
             <article className="home-article">
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-                    laborum.
+                Smart Learning ROI is a powerful platform that empowers users to analyze the potential return on investment (ROI) of your company. Unlock the full potential of your endeavors by exploring our cutting-edge tools and experience the difference today!
                 </p>
             </article>
-
+    
             <button
                 onClick={handleExploreClick}
                 className="explore-button"
@@ -62,6 +61,7 @@ const Home = () => {
             </button>
         </>
     );
+    
 };
 
 export default Home;

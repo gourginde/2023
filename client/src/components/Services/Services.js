@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import ImportCSV from '../ImportCSV';
 import MLdropdown from '../MLdropdown';
-import Results from '../Results';
+import Results from '../Results/Results';
 import ProgressBar from '../ProgressBar';
 import './Services.css';
 
 const Services = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const steps = ['Import CSV', 'Select Model', 'View Results', 'Dependency Graphs', 'ROI Analysis'];
+  const steps = ['Import CSV', 'Training Method', 'View Results', 'Dependency Graphs', 'ROI Analysis'];
   const pages = [ImportCSV, MLdropdown, Results];
 
   const handleNextStep = () => {

@@ -153,7 +153,7 @@
     
       return (
         <div>
-          <h2 style={{color:"black"}}>ML Models</h2>
+          <h2 style={{color:"black"}}>Training Method </h2>
     
           {/* learning */}
           <LearningDropdown options={learningAlgo} onSelect={handleLearningSelect} />
