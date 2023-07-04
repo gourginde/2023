@@ -14,7 +14,7 @@
       }, []);
     
       const fetchF1Score = async () => {
-        const response = await fetch('http://3.86.250.113:5000/f1score', {
+        const response = await fetch('http://54.173.102.231:5000/f1score', {
           method: 'POST',
         });
         const data = await response.json();

@@ -38,7 +38,7 @@
       
         if (selectedValue === 'weeklySupervised') {
           try {
-            const response = await axios.post('http://3.86.250.113:5000/weekly-supervised');
+            const response = await axios.post('http://54.173.102.231:5000/weekly-supervised');
             console.log(response.data);
             if (response.data.success) {
               setLearning(response.data.testCheck);
@@ -49,7 +49,7 @@
         }
         else if (selectedValue === 'activeLearning') {
           try {
-            const response = await axios.post('http://3.86.250.113:5000/active-learning');
+            const response = await axios.post('http://54.173.102.231:5000/active-learning');
             console.log(response.data);
             if (response.data.success) {
               setLearning(response.data.testCheck);
@@ -66,7 +66,7 @@
       
         if (selectedValue === 'logistic_regression') {
           try {
-            const response = await axios.post('http://3.86.250.113:5000/logistic-regression');
+            const response = await axios.post('http://54.173.102.231:5000/logistic-regression');
             console.log(response.data);
             if (response.data.success) {
               setReport(response.data.report);
@@ -82,7 +82,7 @@
         }
         else if (selectedValue === 'naive_bayes') {
           try {
-            const response = await axios.post('http://3.86.250.113:5000/naive-bayes');
+            const response = await axios.post('http://54.173.102.231:5000/naive-bayes');
             console.log(response.data);
             if (response.data.success) {
               setReport(response.data.report);
@@ -99,7 +99,7 @@
         }
         else if (selectedValue === 'random_forest') {
           try {
-            const response = await axios.post('http://3.86.250.113:5000/random-forest');
+            const response = await axios.post('http://54.173.102.231:5000/random-forest');
             console.log(response.data);
             if (response.data.success) {
               setReport(response.data.report);
@@ -115,7 +115,7 @@
         }
         else if (selectedValue === 'support_vector_machine') {
           try {
-            const response = await axios.post('http://3.86.250.113:5000/support-vector-machine');
+            const response = await axios.post('http://54.173.102.231:5000/support-vector-machine');
             console.log(response.data);
             if (response.data.success) {
               setReport(response.data.report);
@@ -131,7 +131,7 @@
         }
         else if (selectedValue === 'decision_tree') {
           try {
-            const response = await axios.post('http://3.86.250.113:5000/decision-tree');
+            const response = await axios.post('http://54.173.102.231:5000/decision-tree');
             console.log(response.data);
             if (response.data.success) {
               setReport(response.data.report);

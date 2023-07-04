@@ -42,7 +42,7 @@
         formData.append('training_size', trainingSize);  
       
         axios
-          .post('http://3.86.250.113:5000/upload/train_data', formData)
+          .post('http://54.173.102.231:5000/upload/train_data', formData)
           .then((response) => {
             console.log(response.data);
             if (response.data.success) {
@@ -64,7 +64,7 @@
         formData.append('file', testData);
     
         axios
-          .post('http://3.86.250.113:5000/upload/test_data', formData)
+          .post('http://54.173.102.231:5000/upload/test_data', formData)
           .then((response) => {
             console.log(response.data);
             if (response.data.success) {
@@ -80,7 +80,7 @@
     
       const handlePreprocessData = () => {
         axios
-          .post('http://3.86.250.113:5000/trim_data', { trainingSize})
+          .post('http://54.173.102.231:5000/trim_data', { trainingSize})
           .then((response) => {
             console.log(response.data);
             window.alert('Trimmed Data Saved at Backend!');
