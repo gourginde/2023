@@ -23,13 +23,13 @@ const LearningDropdown = ({ onSelect }) => {
         className={`grid-option ${selectedOption === 'weeklySupervised' ? 'selected' : ''}`}
         onClick={() => handleButtonClick('weeklySupervised')}
       >
-        Supervised 
+        Weekly Supervised Models
       </button>
       <button
         className={`grid-option ${selectedOption === 'activeLearning' ? 'selected' : ''}`}
         onClick={() => handleButtonClick('activeLearning')}
       >
-        Semi-Supervised (Active Learning)
+        Active Learning
       </button>
       
     </div>
