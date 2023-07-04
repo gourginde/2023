@@ -233,5 +233,3 @@ export default class Filter extends Component {
   
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<Filter />, rootElement);
