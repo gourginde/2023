@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "proxy": "http://54.173.102.231:5000",
+  "proxy": "http://34.239.126.491:5000",
   "private": true,
   "dependencies": {
     "@mui/x-data-grid": "^6.5.0",
