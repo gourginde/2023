@@ -42,7 +42,7 @@ function ImportCSV() {
     formData.append('training_size', trainingSize);  
   
     axios
-      .post('http://54.173.102.231:5000/upload/train_data', formData)
+      .post('http://34.239.126.49:5000/upload/train_data', formData)
       .then((response) => {
         console.log(response.data);
         if (response.data.success) {
@@ -64,7 +64,7 @@ function ImportCSV() {
     formData.append('file', testData);
 
     axios
-      .post('http://54.173.102.231:5000/upload/test_data', formData)
+      .post('http://34.239.126.49:5000/upload/test_data', formData)
       .then((response) => {
         console.log(response.data);
         if (response.data.success) {
@@ -80,7 +80,7 @@ function ImportCSV() {
 
   const handlePreprocessData = () => {
     axios
-      .post('http://54.173.102.231:5000/trim_data', { trainingSize})
+      .post('http://34.239.126.49:5000/trim_data', { trainingSize})
       .then((response) => {
         console.log(response.data);
         window.alert('Trimmed Data Saved at Backend!');
