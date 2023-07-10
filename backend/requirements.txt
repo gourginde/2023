@@ -3,9 +3,7 @@ flask_cors
 pandas
 matplotlib
 seaborn
-threading
 scikit-learn
-time
 nltk
 string
 pickle
