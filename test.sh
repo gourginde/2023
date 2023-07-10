@@ -1,26 +1,26 @@
 #!/bin/bash
 
 # Update the system
-apt-get update
-apt-get upgrade -y
+sudo apt-get update
+sudo apt-get upgrade -y
 
 # Install Git
-apt-get install -y git
+sudo apt-get install -y git
 
 # Install Node.js and npm
-apt-get install -y nodejs npm
+sudo apt-get install -y nodejs npm
 
 # Install Python 3 and pip
-apt-get install -y python3 python3-pip
+sudo apt-get install -y python3 python3-pip
 
 # Install Java (OpenJDK)
-apt-get install -y openjdk-11-jdk
+sudo apt-get install -y openjdk-11-jdk
 
 # Install Ruby
-apt-get install -y ruby-full
+sudo apt-get install -y ruby-full
 
 # Install Nginx
-apt-get install -y nginx
+sudo apt-get install -y nginx
 
 # Change directory to 2023/client
 cd /home/ubuntu/2023/client
