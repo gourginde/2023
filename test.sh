@@ -1,8 +1,11 @@
 #!/bin/bash
 
 
+# Change directory to 2023/client
+cd /home/ubuntu/2023/client
 
-
+# Install client dependencies
+npm start
 
 
 # Change directory to 2023
