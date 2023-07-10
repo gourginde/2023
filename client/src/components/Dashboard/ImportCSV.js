@@ -92,7 +92,9 @@ function ImportCSV() {
   
 
   return (
+    
     <div className="container">
+      
       <div className="section">
         <h2>Train Data</h2>
         <div className="slider-container">
