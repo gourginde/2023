@@ -4,11 +4,8 @@
 # Change directory to 2023/client
 cd /home/ubuntu/2023/client
 
-# Install client dependencies
-npm install
 
-# Build the UI
-npm run build
+
 
 # Change directory to 2023
 cd /home/ubuntu/2023
