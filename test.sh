@@ -5,7 +5,7 @@
 cd /home/ubuntu/2023/client
 
 # Install client dependencies
-npm start
+npm start &
 
 
 # Change directory to 2023
