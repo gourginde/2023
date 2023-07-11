@@ -16,10 +16,10 @@ cd /home/ubuntu/2023
 source venv/bin/activate
 
 # Change directory to backend
-cd backend
+cd /home/ubuntu/2023/backend
 
 # Install Flask dependencies
 pip install -r requirements.txt
 
 # Run the Flask application (replace with your actual command)
-python3 application.py 
+python3 application.py &
