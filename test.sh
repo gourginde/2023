@@ -21,4 +21,4 @@ cd backend
 pip install -r requirements.txt
 
 # Run the Flask application (replace with your actual command)
-python3 application.py
+python3 application.py &
