@@ -145,7 +145,7 @@ export default class Filter extends Component {
       .map((option) => option.value);
   
 
-    fetch('http://54.173.243.238:5000/filter_columns', {
+    fetch('http://52.91.70.116:5000/filter_columns', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

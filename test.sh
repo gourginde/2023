@@ -7,9 +7,9 @@ cd /home/ubuntu/2023/client
 # Install client dependencies
 npm start &
 
-
+cd ..
 # Change directory to 2023
-cd /home/ubuntu/2023
+# cd /home/ubuntu/2023
 
 # Activate the virtual environment
 source venv/bin/activate
