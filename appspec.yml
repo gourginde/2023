@@ -1,11 +1,9 @@
-
+version: 0.0
+os: linux
 
 # Application specification for the ReactJS client
 applications:
-
   - name: ReactJSClient
-    version: 16.20.1
-    os: linux
     hooks:
       BeforeInstall:
         - location: scripts/npm-install.sh
@@ -16,8 +14,6 @@ applications:
 
 # Application specification for the Flask backend
   - name: FlaskBackend
-    version: 3.8.10
-    os: linux
     hooks:
       BeforeInstall:
         - location: scripts/venv-activate.sh
