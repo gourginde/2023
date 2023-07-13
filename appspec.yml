@@ -1,9 +1,11 @@
 
-os: linux
+
 
 # Application specification for the ReactJS client
 applications:
   - name: ReactJSClient
+    os: linux
+    version: v16.20.1
     hooks:
       BeforeInstall:
         - location: scripts/npm-install.sh
