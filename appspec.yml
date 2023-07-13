@@ -5,9 +5,7 @@ os: linux
 applications:
   - name: ReactJSClient
     hooks:
-      BeforeInstall:
-        - location: scripts/npm-install.sh
-          timeout: 300
+      
       ApplicationStart:
         - location: scripts/start-client.sh
           timeout: 300
