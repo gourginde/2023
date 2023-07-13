@@ -1,4 +1,4 @@
-
+version: 0.0
 os: linux
 
 # Application specification for the ReactJS client
@@ -14,7 +14,7 @@ applications:
 
 # Application specification for the Flask backend
   - name: FlaskBackend
-    version: 3.8.10
+    version: 0.0
     os: linux
     hooks:
       BeforeInstall:
