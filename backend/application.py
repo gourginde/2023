@@ -822,59 +822,8 @@ def f1score():
     global precision_score_dt
 
     size = [2,3,4,5,6,7,8,9]
-
-    fig = plt.figure(figsize=(4.5, 4))
-    fig.patch.set_facecolor('white') 
-    plt.plot(size, f1_score_lg, color='#AFD5F0', label='Logistic Regression')
-    plt.plot(size, f1_score_nb, color='#FDFD96', label='Naive Bayes')
-    plt.plot(size, f1_score_rf, color='#77dd77', label='Random Forest')
-    plt.plot(size, f1_score_svc, color='#AFD5F0', label='SVC',linestyle='dashed')
-    plt.plot(size, f1_score_dt, color='#77dd77', label='Decision Tree',linestyle='dashed')
-    plt.xlabel("Relative Training Size",color='black')
-    plt.ylabel("F1 Score",color='black')
-    plt.legend()
-    f1_score_all = os.path.join(application.static_folder, 'f1_score_all.png')
-    plt.show()
-    plt.savefig(f1_score_all)
-  
-
-    fig1 = plt.figure(figsize=(4.5, 4))
-    fig1.patch.set_facecolor('white') 
-    plt.plot(size, recall_score_lg, color='#AFD5F0', label='Logistic Regression')
-    plt.plot(size, recall_score_nb, color='#FDFD96', label='Naive Bayes')
-    plt.plot(size, recall_score_rf, color='#77dd77', label='Random Forest')
-    plt.plot(size, recall_score_svc, color='#AFD5F0', label='SVC',linestyle='dashed')
-    plt.plot(size, recall_score_dt, color='#77dd77', label='Decision Tree',linestyle='dashed')
-    plt.xlabel("Relative Training Size",color='black')
-    plt.ylabel("Recall Score",color='black')
-    plt.legend()
-    recall_score_all = os.path.join(application.static_folder, 'recall_score_all.png')
-    plt.show()
-    plt.savefig(recall_score_all)
-
-    fig2 = plt.figure(figsize=(4.5, 4))
-    fig2.patch.set_facecolor('white') 
-    plt.plot(size, precision_score_lg, color='#AFD5F0', label='Logistic Regression')
-    plt.plot(size, precision_score_nb, color='#FDFD96', label='Naive Bayes')
-    plt.plot(size, precision_score_rf, color='#77dd77', label='Random Forest')
-    plt.plot(size, precision_score_svc, color='#AFD5F0', label='SVC',linestyle='dashed')
-    plt.plot(size, precision_score_dt, color='#77dd77', label='Decision Tree',linestyle='dashed')
-    plt.xlabel("Relative Training Size",color='black')
-    plt.ylabel("Precision Score",color='black')
-    plt.legend()
-    precision_score_all = os.path.join(application.static_folder, 'precision_score_all.png')
-    plt.show()
-    plt.savefig(precision_score_all)
-    plt.close()
-
-    image_files_to_delete = [f1_score_all, recall_score_all, precision_score_all]
-    delete(image_files_to_delete, delay=7)
    
-
-    return jsonify({'success':True, 
-                    'graph': '/static/f1_score_all.png',
-                    'graph1': '/static/recall_score_all.png',
-                    'graph2': '/static/precision_score_all.png',
+    return jsonify({'success':True,
                     'f1_score_lg': f1_score_lg,
                     'f1_score_nb': f1_score_nb,
                     'f1_score_rf': f1_score_rf,
