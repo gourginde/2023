@@ -58,7 +58,7 @@ const Home = ({ onExploreClick }) => {
         </div>
       </div>
 
-      <div style={{ color: 'black', fontSize: '18px' }}>
+      <div className='textData'>
         <br />
         <br />
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
