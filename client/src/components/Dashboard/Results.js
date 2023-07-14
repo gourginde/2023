@@ -126,7 +126,6 @@ const Results = () => {
         },
       },
     };
-
     return (
       <div>
         <Line data={chartData} options={chartOptions} />
