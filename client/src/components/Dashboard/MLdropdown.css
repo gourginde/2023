@@ -1,20 +1,44 @@
+.ml-dropdown-container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 30px;
+}
+
 .classification-report {
+  display: flex;
+  flex-direction: column;
   border: 1px solid #ccc;
-  padding: 5px;
+  padding: 1px;
   background-color: white;
   color: #222222;
-  margin-top: 20px; 
+  margin-top: 390px; 
   margin-bottom: 20px; 
+  width: 1010px;
+
   
+}
+.ml-models{
+  color: #28a9e2;
+  margin-right: 0px;
+}
+.text{
+  color: #28a9e2;
+  font-size: 25px;
+  font-weight: bold;
+}
+.App.night .text {
+  color: white; 
+  font-size: 25px;
+  font-weight: bold;
 }
 
 .report-content {
-  max-height:800px;
+  max-height:700px;
   overflow-y: scroll;
 }
 
 .report-content pre {
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.2;
   border-collapse: collapse;
 }
@@ -22,7 +46,7 @@
 .report-content pre th,
 .report-content pre td {
   border: 1px solid #ccc;
-  padding: 5px;
+  padding: 2px;
 }
 
 .report-content pre th {

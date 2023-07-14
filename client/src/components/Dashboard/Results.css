@@ -1,0 +1,27 @@
+.chart-container {
+    width: 900px;
+    height: 600px;
+  }
+
+.center-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-wrapper {
+    margin-left: 250px;
+}
+
+.text{
+    color: #28a9e2;
+    align-items: center;
+    font-size: 40px;
+    text-align: center;
+}
+.App.night .text {
+    color: white; 
+  }
+  
+  
