@@ -54,6 +54,56 @@ precision_score_svc = []
 precision_score_dt = []
 global f1score
 
+'''ROI Variables'''
+global fp_cost
+global fn_cost
+global tp_cost
+global resources_cost
+global preprocessing_cost
+global product_value
+global tp_lg
+global fn_lg
+global fp_lg
+global tp_nb
+global fn_nb
+global fp_nb
+global tp_rf
+global fn_rf
+global fp_rf
+global tp_svc
+global fn_svc
+global fp_svc
+global tp_dt
+global fn_dt
+global fp_dt
+
+fp_lg_list = []
+fn_lg_list = []
+tp_lg_list = []
+
+fp_nb_list = []
+fn_nb_list = []
+tp_nb_list = []
+
+fp_rf_list = []
+fn_rf_list = []
+tp_rf_list = []
+
+fp_svc_list = []
+fn_svc_list = []
+tp_svc_list = []
+
+fp_dt_list = []
+fn_dt_list = []
+tp_dt_list = []
+
+roi_lg = []
+roi_nb = []
+roi_rf = []
+roi_svc = []
+roi_dt = []
+
+
 '''Preprocessing functions'''
 def preprocess_text(text):
   if isinstance(text, str):
@@ -230,6 +280,15 @@ def perform_logistic_regression():
     recall_score_lg.clear()
     precision_score_lg.clear()
     f1_score_lg.clear()
+    global tp_lg
+    global fn_lg
+    global fp_lg
+    global tp_lg_list
+    global fn_lg_list
+    global fp_lg_list
+    tp_lg_list.clear()
+    fn_lg_list.clear()
+    fp_lg_list.clear()
     
 
     try:
@@ -258,7 +317,7 @@ def perform_logistic_regression():
         accuracy = round(accuracy_score(y_test,y_pred),4)*100 
         accuracy = str(accuracy)+"%"
         report = classification_report(y_test, y_pred,  zero_division=1)
-        cm=confusion_matrix(y_pred,y_test)
+        cm=confusion_matrix(y_pred,y_test,labels=[0,1])
         f1 = round(f1_score(y_test,y_pred,average='macro'),3)
       
         acc=[]
@@ -273,6 +332,11 @@ def perform_logistic_regression():
             X_test_vectorized = vectorizer.transform(X_test_text)
             model.fit(X_train_vectorized, y_train)
             y_pred = model.predict(X_test_vectorized)
+            cm=confusion_matrix(y_pred,y_test,labels=[0,1])
+            tn, fp_lg, fn_lg, tp_lg = cm.ravel()
+            fp_lg_list.append(int(fp_lg))
+            fn_lg_list.append(int(fn_lg))
+            tp_lg_list.append(int(tp_lg))
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
             f1_score_lg.append(round(f1_score(y_test,y_pred,average='macro'),2))
@@ -289,7 +353,7 @@ def perform_logistic_regression():
         plt.savefig(cm)
         plt.close()
 
-        fig = plt.figure(figsize=(5.5, 4))
+        fig = plt.figure(figsize=(4.5, 4))
         fig.patch.set_facecolor('white') 
         plt.plot(size,acc, color='#AFD5F0')
         plt.xlabel("Training Size",color='black')
@@ -302,7 +366,7 @@ def perform_logistic_regression():
         image_files_to_delete = [cm, lg_f1_score]
         delete(image_files_to_delete, delay=7)
         
-        return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/lg.png','cm':'/static/lg_cm.png','f1':f1,'f1score':f1_score_lg,'recallscore':recall_score_lg,'precisionscore':precision_score_lg})
+        return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/lg.png','cm':'/static/lg_cm.png','f1':f1,'f1score':f1_score_lg,'recallscore':recall_score_lg,'precisionscore':precision_score_lg,'tp':tp_lg_list,'fp':fp_lg_list,'fn':fn_lg_list})
     
     except Exception as e:
         return jsonify({'error': str(e)})
@@ -319,6 +383,15 @@ def perform_naive_bayes():
     recall_score_nb.clear()
     precision_score_nb.clear()
     f1_score_nb.clear()
+    global tp_nb
+    global fn_nb
+    global fp_nb
+    global tp_nb_list
+    global fn_nb_list
+    global fp_nb_list
+    tp_nb_list.clear()
+    fn_nb_list.clear()
+    fp_nb_list.clear()
 
     try:
         start = time.time()
@@ -344,7 +417,7 @@ def perform_naive_bayes():
         accuracy = round(accuracy_score(y_test,y_pred),4)*100 
         accuracy = str(accuracy)+"%"
         report = classification_report(y_test, y_pred,  zero_division=1)
-        cm=confusion_matrix(y_pred,y_test)
+        cm=confusion_matrix(y_pred,y_test,labels=[0,1])
         f1 = round(f1_score(y_test,y_pred,average='macro'),3)
       
         acc=[]
@@ -359,6 +432,11 @@ def perform_naive_bayes():
             X_test_vectorized = vectorizer.transform(X_test_text)
             model.fit(X_train_vectorized, y_train)
             y_pred = model.predict(X_test_vectorized)
+            cm=confusion_matrix(y_pred,y_test,labels=[0,1])
+            tn, fp_nb, fn_nb, tp_nb = cm.ravel()
+            fp_nb_list.append(int(fp_nb))
+            fn_nb_list.append(int(fn_nb))
+            tp_nb_list.append(int(tp_nb))
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
             f1_score_nb.append(round(f1_score(y_test,y_pred,average='macro'),2))
@@ -375,7 +453,7 @@ def perform_naive_bayes():
         plt.savefig(cm)
         plt.close()
 
-        fig = plt.figure(figsize=(5.5, 4))
+        fig = plt.figure(figsize=(4.5, 4))
         fig.patch.set_facecolor('white') 
         plt.plot(size,acc, color='#AFD5F0')
         plt.xlabel("Training Size",color='black')
@@ -388,7 +466,7 @@ def perform_naive_bayes():
         image_files_to_delete = [cm, nb_f1_score]
         delete(image_files_to_delete, delay=7)
         
-        return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/nb.png','cm':'/static/nb_cm.png','f1':f1,'f1score':f1_score_nb,'recallscore':recall_score_nb,'precisionscore':precision_score_nb})
+        return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/nb.png','cm':'/static/nb_cm.png','f1':f1,'f1score':f1_score_nb,'recallscore':recall_score_nb,'precisionscore':precision_score_nb,'tp':tp_nb_list,'fp':fp_nb_list,'fn':fn_nb_list})
     
     except Exception as e:
         return jsonify({'error': str(e)})
@@ -405,6 +483,15 @@ def perform_random_forest():
     recall_score_rf.clear()
     precision_score_rf.clear()
     f1_score_rf.clear()
+    global tp_rf
+    global fn_rf
+    global fp_rf
+    global tp_rf_list
+    global fn_rf_list
+    global fp_rf_list
+    tp_rf_list.clear()
+    fn_rf_list.clear()
+    fp_rf_list.clear()
 
     try:
         start = time.time()
@@ -430,7 +517,7 @@ def perform_random_forest():
         accuracy = round(accuracy_score(y_test,y_pred),4)*100 
         accuracy = str(accuracy)+"%"
         report = classification_report(y_test, y_pred,  zero_division=1)
-        cm=confusion_matrix(y_pred,y_test)
+        cm=confusion_matrix(y_pred,y_test,labels=[0,1])
         f1 = round(f1_score(y_test,y_pred,average='macro'),3)
       
         acc=[]
@@ -445,6 +532,11 @@ def perform_random_forest():
             X_test_vectorized = vectorizer.transform(X_test_text)
             model.fit(X_train_vectorized, y_train)
             y_pred = model.predict(X_test_vectorized)
+            cm=confusion_matrix(y_pred,y_test,labels=[0,1])
+            tn, fp_rf, fn_rf, tp_rf = cm.ravel()
+            fp_rf_list.append(int(fp_rf))
+            fn_rf_list.append(int(fn_rf))
+            tp_rf_list.append(int(tp_rf))
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
             f1_score_rf.append(round(f1_score(y_test,y_pred,average='macro'),2))
@@ -461,7 +553,7 @@ def perform_random_forest():
         plt.savefig(cm)
         plt.close()
 
-        fig = plt.figure(figsize=(5.5, 4))
+        fig = plt.figure(figsize=(4.5, 4))
         fig.patch.set_facecolor('white') 
         plt.plot(size,acc, color='#AFD5F0')
         plt.xlabel("Training Size",color='black')
@@ -474,7 +566,7 @@ def perform_random_forest():
         image_files_to_delete = [cm, rf_f1_score]
         delete(image_files_to_delete, delay=7)
         
-        return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/rf.png','cm':'/static/rf_cm.png','f1':f1,'f1score':f1_score_rf,'recallscore':recall_score_rf,'precisionscore':precision_score_rf})
+        return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/rf.png','cm':'/static/rf_cm.png','f1':f1,'f1score':f1_score_rf,'recallscore':recall_score_rf,'precisionscore':precision_score_rf,'tp':tp_rf_list,'fp':fp_rf_list,'fn':fn_rf_list})
     
     except Exception as e:
         return jsonify({'error': str(e)})
@@ -491,6 +583,15 @@ def perform_support_vector_machine():
     recall_score_svc.clear()
     precision_score_svc.clear()
     f1_score_svc.clear()
+    global tp_svc
+    global fn_svc
+    global fp_svc
+    global tp_svc_list
+    global fn_svc_list
+    global fp_svc_list
+    tp_svc_list.clear()
+    fn_svc_list.clear()
+    fp_svc_list.clear()
 
     try:
         start = time.time()
@@ -516,7 +617,7 @@ def perform_support_vector_machine():
         accuracy = round(accuracy_score(y_test,y_pred),4)*100 
         accuracy = str(accuracy)+"%"
         report = classification_report(y_test, y_pred,  zero_division=1)
-        cm=confusion_matrix(y_pred,y_test)
+        cm=confusion_matrix(y_pred,y_test,labels=[0,1])
         f1 = round(f1_score(y_test,y_pred,average='macro'),3)
       
         acc=[]
@@ -531,6 +632,11 @@ def perform_support_vector_machine():
             X_test_vectorized = vectorizer.transform(X_test_text)
             model.fit(X_train_vectorized, y_train)
             y_pred = model.predict(X_test_vectorized)
+            cm=confusion_matrix(y_pred,y_test,labels=[0,1])
+            tn, fp_svc, fn_svc, tp_svc = cm.ravel()
+            fp_svc_list.append(int(fp_svc))
+            fn_svc_list.append(int(fn_svc))
+            tp_svc_list.append(int(tp_svc))
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
             f1_score_svc.append(round(f1_score(y_test,y_pred,average='macro'),2))
@@ -547,7 +653,7 @@ def perform_support_vector_machine():
         plt.savefig(cm)
         plt.close()
 
-        fig = plt.figure(figsize=(5.5, 4))
+        fig = plt.figure(figsize=(4.5, 4))
         fig.patch.set_facecolor('white') 
         plt.plot(size,acc, color='#AFD5F0')
         plt.xlabel("Training Size",color='black')
@@ -560,7 +666,7 @@ def perform_support_vector_machine():
         image_files_to_delete = [cm, svc_f1_score]
         delete(image_files_to_delete, delay=7)
         
-        return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/svc.png','cm':'/static/svc_cm.png','f1':f1,'f1score':f1_score_svc, 'recallscore':recall_score_svc,'precisionscore':precision_score_svc})
+        return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/svc.png','cm':'/static/svc_cm.png','f1':f1,'f1score':f1_score_svc, 'recallscore':recall_score_svc,'precisionscore':precision_score_svc,'tp':tp_svc_list,'fp':fp_svc_list,'fn':fn_svc_list})
     
     except Exception as e:
         return jsonify({'error': str(e)})
@@ -577,6 +683,15 @@ def perform_decision_tree():
     recall_score_dt.clear()
     precision_score_dt.clear()
     f1_score_dt.clear()
+    global tp_dt
+    global fn_dt
+    global fp_dt
+    global tp_dt_list
+    global fn_dt_list
+    global fp_dt_list
+    tp_dt_list.clear()
+    fn_dt_list.clear()
+    fp_dt_list.clear()
 
     try:
         start = time.time()
@@ -602,7 +717,7 @@ def perform_decision_tree():
         accuracy = round(accuracy_score(y_test,y_pred),4)*100 
         accuracy = str(accuracy)+"%"
         report = classification_report(y_test, y_pred,  zero_division=1)
-        cm=confusion_matrix(y_pred,y_test)
+        cm=confusion_matrix(y_pred,y_test,labels=[0,1])
         f1 = round(f1_score(y_test,y_pred,average='macro'),3)
       
         acc=[]
@@ -617,6 +732,11 @@ def perform_decision_tree():
             X_test_vectorized = vectorizer.transform(X_test_text)
             model.fit(X_train_vectorized, y_train)
             y_pred = model.predict(X_test_vectorized)
+            cm=confusion_matrix(y_pred,y_test,labels=[0,1])
+            tn, fp_dt, fn_dt, tp_dt = cm.ravel()
+            fp_dt_list.append(int(fp_dt))
+            fn_dt_list.append(int(fn_dt))
+            tp_dt_list.append(int(tp_dt))
             size.append(k)
             acc.append(round(accuracy_score(y_test,y_pred),2))
             f1_score_dt.append(round(f1_score(y_test,y_pred,average='macro'),2))
@@ -633,7 +753,7 @@ def perform_decision_tree():
         plt.savefig(cm)
         plt.close()
 
-        fig = plt.figure(figsize=(5.5, 4))
+        fig = plt.figure(figsize=(4.5, 4))
         fig.patch.set_facecolor('white') 
         plt.plot(size,acc, color='#AFD5F0')
         plt.xlabel("Training Size",color='black')
@@ -646,7 +766,7 @@ def perform_decision_tree():
         image_files_to_delete = [cm, dt_f1_score]
         delete(image_files_to_delete, delay=7)
         
-        return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/dt.png','cm':'/static/dt_cm.png','f1':f1,'f1score':f1_score_dt, 'recallscore':recall_score_dt,'precisionscore':precision_score_dt})
+        return jsonify({'success': True, 'report': report, 'accuracy':accuracy,'stop':stop,'graph':'/static/dt.png','cm':'/static/dt_cm.png','f1':f1,'f1score':f1_score_dt, 'recallscore':recall_score_dt,'precisionscore':precision_score_dt,'tp':tp_dt_list,'fp':fp_dt_list,'fn':fn_dt_list})
     
     except Exception as e:
         return jsonify({'error': str(e)})
@@ -748,13 +868,119 @@ def f1score():
     plt.close()
 
     image_files_to_delete = [f1_score_all, recall_score_all, precision_score_all]
-    delete(image_files_to_delete, delay=10)
+    delete(image_files_to_delete, delay=7)
    
 
     return jsonify({'success':True, 
                     'graph': '/static/f1_score_all.png',
                     'graph1': '/static/recall_score_all.png',
-                    'graph2': '/static/precision_score_all.png',})
+                    'graph2': '/static/precision_score_all.png',
+                    'f1_score_lg': f1_score_lg,
+                    'f1_score_nb': f1_score_nb,
+                    'f1_score_rf': f1_score_rf,
+                    'f1_score_svc': f1_score_svc,
+                    'f1_score_dt': f1_score_dt,
+                    'recall_score_lg': recall_score_lg,
+                    'recall_score_nb': recall_score_nb,
+                    'recall_score_rf': recall_score_rf,
+                    'recall_score_svc': recall_score_svc,
+                    'recall_score_dt': recall_score_dt,
+                    'precision_score_lg': precision_score_lg,
+                    'precision_score_nb': precision_score_nb,
+                    'precision_score_rf': precision_score_rf,
+                    'precision_score_svc': precision_score_svc,
+                    'precision_score_dt': precision_score_dt})
+
+''' ROI Analysis '''
+@application.route('/roi-parameters', methods=['POST'])
+def set_roi_parameters():
+    global fp_cost
+    global fn_cost
+    global tp_cost
+    global resources_cost
+    global preprocessing_cost
+    global product_value
+
+    fp_cost = float(request.form.get('fp_cost'))
+    fn_cost = float(request.form.get('fn_cost'))
+    tp_cost = float(request.form.get('tp_cost'))
+    resources_cost = float(request.form.get('resources_cost'))
+    preprocessing_cost = float(request.form.get('preprocessing_cost'))
+    product_value = float(request.form.get('product_value'))
+
+    return jsonify({'success':True, 
+                    'fp_cost' : fp_cost,
+                    'fn_cost' : fn_cost,
+                    'tp_cost' : tp_cost,
+                    'resources_cost' : resources_cost,
+                    'preprocessing_cost' : preprocessing_cost,
+                    'product_value' : product_value})
+
+
+'''Benefit = TP*tp_cost - FP*fp_cost - FN*fn_cost'''
+@application.route('/roi-graphs', methods=['POST'])
+def set_roi_graphs():
+    global fp_cost
+    global fn_cost
+    global tp_cost
+    global resources_cost
+    global preprocessing_cost
+    global product_value
+
+    global fp_lg_list 
+    global fn_lg_list 
+    global tp_lg_list 
+    global fp_nb_list 
+    global fn_nb_list 
+    global tp_nb_list 
+    global fp_rf_list 
+    global fn_rf_list 
+    global tp_rf_list 
+    global fp_svc_list
+    global fn_svc_list
+    global tp_svc_list
+    global fp_dt_list 
+    global fn_dt_list 
+    global tp_dt_list 
+
+    global roi_lg 
+    global roi_nb 
+    global roi_rf 
+    global roi_svc
+    global roi_dt
+
+    global f1_score_lg
+    global f1_score_nb
+    global f1_score_rf
+    global f1_score_svc
+    global f1_score_dt
+    size = [2,3,4,5,6,7,8,9]
+
+    for k in range(2,10):
+        cost = (int(resources_cost) + int(preprocessing_cost) + int(product_value))
+        print(len(tp_lg_list))
+        benefit_lg = tp_lg_list[k]*tp_cost - fn_lg_list[k]*fn_cost - fp_lg_list[k]*fp_cost
+        roi_lg.append((benefit_lg - cost)/cost) 
+        benefit_nb = tp_nb_list[k]*tp_cost - fn_nb_list[k]*fn_cost - fp_nb_list[k]*fp_cost
+        roi_nb.append((benefit_nb - cost)/cost) 
+        benefit_rf = tp_rf_list[k]*tp_cost - fn_rf_list[k]*fn_cost - fp_rf_list[k]*fp_cost
+        roi_rf.append((benefit_rf - cost)/cost) 
+        benefit_svc = tp_svc_list[k]*tp_cost - fn_svc_list[k]*fn_cost - fp_svc_list[k]*fp_cost
+        roi_svc.append((benefit_svc - cost)/cost)
+        benefit_dt = tp_dt_list[k]*tp_cost - fn_dt_list[k]*fn_cost - fp_dt_list[k]*fp_cost
+        roi_dt.append((benefit_dt - cost)/cost)
+
+    return jsonify({'success':True, 
+                    'roi_lg':roi_lg,
+                    'roi_nb':roi_nb,
+                    'roi_rf':roi_rf,
+                    'roi_svc':roi_svc,
+                    'roi_dt':roi_dt,
+                    'f1_score_lg': f1_score_lg,
+                    'f1_score_nb': f1_score_nb,
+                    'f1_score_rf': f1_score_rf,
+                    'f1_score_svc': f1_score_svc,
+                    'f1_score_dt': f1_score_dt,})
 
 
 if __name__ == '__main__':
