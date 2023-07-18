@@ -3,17 +3,18 @@ import Home from './components/Navbar/Home';
 import ImportCSV from './components/Dashboard/ImportCSV';
 import MLdropdown from './components/Dashboard/MLdropdown';
 import Results from './components/Dashboard/Results';
+import DependencyGraphs from './components/Dashboard/DependencyGraphs';
+import ROI from './components/Dashboard/ROI_analysis';
 import ProgressBar from './components/Dashboard/ProgressBar';
 import Navbar from './components/Navbar/Navbar';
-import About from './components/Navbar/About/About';
-import Contact from './components/Navbar/About/About';
 import './App.css';
 
 function App() {
   const [showOtherPage, setShowOtherPage] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const steps = ['Import CSV', 'Select Model', 'View Results', 'Dependency Graphs', 'ROI Analysis'];
-  const pages = [ImportCSV, MLdropdown, Results];
+  const [theme, setTheme] = useState('day'); // 'day' or 'night' theme
+  const steps = ['Import CSV', 'Select Model', 'View Results', 'Graphs', 'ROI Analysis'];
+  const pages = [ImportCSV, MLdropdown, Results, DependencyGraphs, ROI];
 
   const handleNextStep = () => {
     if (currentStep < steps.length - 1) {
@@ -54,17 +55,29 @@ function App() {
     console.log('Selected model:', selectedModel);
   };
 
+  const toggleTheme = () => {
+    setTheme(theme === 'day' ? 'night' : 'day');
+  };
+
   return (
-    <div className="App">
+    <div className={`App ${theme}`}>
       <header className="App-header">
-        <Navbar onDashboardClick={handleDashboardClick} onHomeClick={handleHomeClick} onAboutClick={handleAboutClick} onContactClick={handleContactClick} /> 
+        <Navbar
+          onDashboardClick={handleDashboardClick}
+          onHomeClick={handleHomeClick}
+          onAboutClick={handleAboutClick}
+          onContactClick={handleContactClick}
+        />
       </header>
       <div className="App-content">
-        {!showOtherPage && <Home />} 
+        {!showOtherPage && <Home />}
         {showOtherPage && (
           <>
             <ProgressBar steps={steps} currentStep={currentStep} />
-            <CurrentPage onModelSelect={handleModelSelect} onLearningSelect={handleLearningSelect} />
+            <CurrentPage
+              onModelSelect={handleModelSelect}
+              onLearningSelect={handleLearningSelect}
+            />
             <div className="navigation-buttons">
               {currentStep > 0 && (
                 <button className="prev-button" onClick={handlePrevStep}>
@@ -79,6 +92,11 @@ function App() {
             </div>
           </>
         )}
+        <div className="theme-switch" onClick={toggleTheme}>
+          <div className={`theme-switch-label ${theme === 'night' ? 'dark' : ''}`}>
+            {theme === 'day' ? 'Day' : 'Night'}
+          </div>
+        </div>
       </div>
     </div>
   );

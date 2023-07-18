@@ -5,7 +5,7 @@ Functionality
 */
 
 import React, { useState } from 'react';
-import './GridDropdown.css';
+import './LearningDropdown.css';
 
 const LearningDropdown = ({ onSelect }) => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -17,7 +17,7 @@ const LearningDropdown = ({ onSelect }) => {
 
   return (
     <center>
-    <div className="grid-dropdown">
+    <div className="griddropdown">
       
       <button
         className={`grid-option ${selectedOption === 'weeklySupervised' ? 'selected' : ''}`}

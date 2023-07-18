@@ -1,16 +1,10 @@
-/* Function - ML model selector
-        Pass In: Data (.csv) -> dataframe
-        Pass Out: f1 score, accuracy, confusion matrix, execution time
-    Endfunction */
-
 import React, { useState } from 'react';
 import Dropdown from './GridDropdown';
 import LearningDropdown from './Learning';
 import axios from 'axios';
 import './MLdropdown.css'
 
-
-const MLdropdown = ({ onModelSelect,onLearningSelect, trainData, testData }) => {
+const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) => {
   const options = [
     { label: 'Logistic Regression', value: 'logistic_regression' },
     { label: 'Naive Bayes', value: 'naive_bayes' },
@@ -29,13 +23,16 @@ const MLdropdown = ({ onModelSelect,onLearningSelect, trainData, testData }) => 
   const [accuracy, setAccuracy] = useState(null);
   const [stopTime, setStopTime] = useState(null);
   const [f1_score, setF1Score] = useState(null);
-  const [graph, setGraph] = useState(false); 
-  const [confusionMatrix, setConfusionMatrix] = useState(false); 
+  const [graph, setGraph] = useState(false);
+  const [confusionMatrix, setConfusionMatrix] = useState(false);
+  const [fp, setFP] = useState(false);
+  const [fn, setFN] = useState(false);
+  const [tp, setTP] = useState(false);
 
   const handleLearningSelect = async (selectedValue) => {
     console.log('Selected option:', selectedValue);
     onLearningSelect(selectedValue);
-  
+
     if (selectedValue === 'weeklySupervised') {
       try {
         const response = await axios.post('http://44.201.124.234:5000/weekly-supervised');
@@ -46,24 +43,23 @@ const MLdropdown = ({ onModelSelect,onLearningSelect, trainData, testData }) => 
       } catch (error) {
         console.error(error);
       }
-    }
-    else if (selectedValue === 'activeLearning') {
+    } else if (selectedValue === 'activeLearning') {
       try {
         const response = await axios.post('http://44.201.124.234:5000/active-learning');
         console.log(response.data);
         if (response.data.success) {
           setLearning(response.data.testCheck);
-          
         }
       } catch (error) {
         console.error(error);
       }
-    }}
+    }
+  };
 
   const handleOptionSelect = async (selectedValue) => {
     console.log('Selected option:', selectedValue);
     onModelSelect(selectedValue);
-  
+
     if (selectedValue === 'logistic_regression') {
       try {
         const response = await axios.post('http://44.201.124.234:5000/logistic-regression');
@@ -72,15 +68,17 @@ const MLdropdown = ({ onModelSelect,onLearningSelect, trainData, testData }) => 
           setReport(response.data.report);
           setAccuracy(response.data.accuracy);
           setStopTime(response.data.stop);
-          setGraph(response.data.graph)
-          setConfusionMatrix(response.data.cm)
-          setF1Score(response.data.f1)
+          setGraph(response.data.graph);
+          setConfusionMatrix(response.data.cm);
+          setF1Score(response.data.f1);
+          setFP(response.data.fp);
+          setFN(response.data.fn);
+          setTP(response.data.tp);
         }
       } catch (error) {
         console.error(error);
       }
-    }
-    else if (selectedValue === 'naive_bayes') {
+    } else if (selectedValue === 'naive_bayes') {
       try {
         const response = await axios.post('http://44.201.124.234:5000/naive-bayes');
         console.log(response.data);
@@ -88,16 +86,17 @@ const MLdropdown = ({ onModelSelect,onLearningSelect, trainData, testData }) => 
           setReport(response.data.report);
           setAccuracy(response.data.accuracy);
           setStopTime(response.data.stop);
-          setGraph(response.data.graph)
-          setConfusionMatrix(response.data.cm)
-          setF1Score(response.data.f1)
-          
+          setGraph(response.data.graph);
+          setConfusionMatrix(response.data.cm);
+          setF1Score(response.data.f1);
+          setFP(response.data.fp);
+          setFN(response.data.fn);
+          setTP(response.data.tp);
         }
       } catch (error) {
         console.error(error);
       }
-    }
-    else if (selectedValue === 'random_forest') {
+    } else if (selectedValue === 'random_forest') {
       try {
         const response = await axios.post('http://44.201.124.234:5000/random-forest');
         console.log(response.data);
@@ -105,15 +104,17 @@ const MLdropdown = ({ onModelSelect,onLearningSelect, trainData, testData }) => 
           setReport(response.data.report);
           setAccuracy(response.data.accuracy);
           setStopTime(response.data.stop);
-          setGraph(response.data.graph)
-          setConfusionMatrix(response.data.cm)
-          setF1Score(response.data.f1)
+          setGraph(response.data.graph);
+          setConfusionMatrix(response.data.cm);
+          setF1Score(response.data.f1);
+          setFP(response.data.fp);
+          setFN(response.data.fn);
+          setTP(response.data.tp);
         }
       } catch (error) {
         console.error(error);
       }
-    }
-    else if (selectedValue === 'support_vector_machine') {
+    } else if (selectedValue === 'support_vector_machine') {
       try {
         const response = await axios.post('http://44.201.124.234:5000/support-vector-machine');
         console.log(response.data);
@@ -121,15 +122,17 @@ const MLdropdown = ({ onModelSelect,onLearningSelect, trainData, testData }) => 
           setReport(response.data.report);
           setAccuracy(response.data.accuracy);
           setStopTime(response.data.stop);
-          setGraph(response.data.graph)
-          setConfusionMatrix(response.data.cm)
-          setF1Score(response.data.f1)
+          setGraph(response.data.graph);
+          setConfusionMatrix(response.data.cm);
+          setF1Score(response.data.f1);
+          setFP(response.data.fp);
+          setFN(response.data.fn);
+          setTP(response.data.tp);
         }
       } catch (error) {
         console.error(error);
-      } 
-    }
-    else if (selectedValue === 'decision_tree') {
+      }
+    } else if (selectedValue === 'decision_tree') {
       try {
         const response = await axios.post('http://44.201.124.234:5000/decision-tree');
         console.log(response.data);
@@ -137,54 +140,69 @@ const MLdropdown = ({ onModelSelect,onLearningSelect, trainData, testData }) => 
           setReport(response.data.report);
           setAccuracy(response.data.accuracy);
           setStopTime(response.data.stop);
-          setGraph(response.data.graph)
-          setConfusionMatrix(response.data.cm)
-          setF1Score(response.data.f1)
+          setGraph(response.data.graph);
+          setConfusionMatrix(response.data.cm);
+          setF1Score(response.data.f1);
+          setFP(response.data.fp);
+          setFN(response.data.fn);
+          setTP(response.data.tp);
         }
       } catch (error) {
         console.error(error);
       }
     }
   };
-  
-
-  
-  
 
   return (
-    <div>
-      <h2 style={{color:"black"}}>ML Models</h2>
+    <div className="ml-dropdown-container">
+      <div className="ml-models">
+        <br />
+        <div className="text" style={{ fontSize: '38px', textAlign: 'center' }}>
+          ML Models
+        </div>
+        <br />
 
-      {/* learning */}
-      <LearningDropdown options={learningAlgo} onSelect={handleLearningSelect} />
-      {learning && (<pre>Test{learning}</pre>)}
+        {/* learning */}
+        <LearningDropdown options={learningAlgo} onSelect={handleLearningSelect} />
 
-      {/* supervised models */}
-      <h3 style={{color:"black"}}>Supervised Models</h3>
-      <Dropdown options={options} onSelect={handleOptionSelect} />
-      
+        {/* supervised models */}
+        <br />
+        <div className="text">Supervised Models</div>
+        <br />
+        <br />
+        <Dropdown options={options} onSelect={handleOptionSelect} />
+      </div>
       {report && (
         <div className="classification-report">
-          
           <div className="report-content">
-         
-            <pre><u><b>Training Accuracy</b></u>: {accuracy}</pre>
-            <pre><u><b>Execution Time</b></u>: {stopTime} seconds</pre>
-            <pre><u><b>F1 Score</b></u>: {f1_score} </pre>
-            <pre><u><b>Classification Report</b></u><br></br><br></br>{report}</pre>
-       
+            <div className="report-tile">
+              <div className="report-tile-title">Accuracy</div>
+              <div className="report-tile-value">{accuracy}</div>
+            </div>
+            <div className="report-tile">
+              <div className="report-tile-title">F1 Score</div>
+              <div className="report-tile-value">{f1_score}</div>
+            </div>
+            <div className="report-tile">
+              <div className="report-tile-title">Execution Time</div>
+              <div className="report-tile-value">{stopTime} seconds</div>
+            </div>
+            <pre>
+              <u>
+                <b>Classification Report</b>
+              </u>
+              <br />
+              <br />
+              {report}
+            </pre>
 
-            <img src={graph}/>
-            <img src={confusionMatrix}/>
-          
+            <img src={graph} />
+            <img src={confusionMatrix} />
           </div>
         </div>
       )}
-      {/* semisupervised models */}
-      <h3 style={{color:"black"}}>Semi - Supervised Models</h3>
     </div>
   );
-  
 };
 
 export default MLdropdown;

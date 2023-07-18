@@ -1,17 +1,18 @@
-.chart-container {
-    width: 900px;
-    height: 600px;
+.chartcontainer {
+    width: 600px;
+    height: 800px;
   }
 
-.center-container {
-    display: flex;
-    flex-direction: column;
+
+.chartwrapper {
+    margin-left: 250px;
+    color:#28a9e2;
+    font-size: 20px;
+    width: 500px;
+    height: 280px;
     align-items: center;
     justify-content: center;
-}
-
-.chart-wrapper {
-    margin-left: 250px;
+    text-align: center;
 }
 
 .text{

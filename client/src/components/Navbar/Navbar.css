@@ -56,3 +56,24 @@
     margin-left: 220px; 
   }
 }
+.navbar .login-box input[type="text"],
+.navbar .login-box input[type="password"] {
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 5px;
+  background-color: lightgray;
+}
+
+.navbar .login-box button {
+  background-color: #28a9e2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.navbar .login-box button:hover {
+  background-color: #1b7eab;
+}

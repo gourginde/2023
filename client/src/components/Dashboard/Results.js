@@ -126,6 +126,7 @@ const Results = () => {
         },
       },
     };
+
     return (
       <div>
         <Line data={chartData} options={chartOptions} />
@@ -133,14 +134,20 @@ const Results = () => {
     );
   };
 
-  const sizeArray = [2, 3, 4, 5, 6, 7, 8, 9];
+  const sizeArray = [20, 30, 40, 50, 60, 70, 80, 90];
 
   return (
-    <div className="chart-container">
-      <div className="text">Results</div>
-      <div className="chart-wrapper">{renderGraphs(graph, graph3, graph6, graph7, graph8, 'Logistic Regression', 'Naive Bayes', 'Random Forest', 'SVC', 'Decision Tree', sizeArray)}</div>
-      <div className="chart-wrapper">{renderGraphs(graph1, graph4, graph9, graph10, graph11, 'Logistic Regression', 'Naive Bayes','Random Forest', 'SVC', 'Decision Tree', sizeArray)}</div>
-      <div className="chart-wrapper">{renderGraphs(graph2, graph5, graph12, graph13, graph14, 'Logistic Regression', 'Naive Bayes', 'Random Forest', 'SVC', 'Decision Tree', sizeArray)}</div>
+    <div className="chartcontainer">
+      <center><div className="text">Results</div><br/><br/></center>
+      <div className="chartwrapper">{renderGraphs(graph, graph3, graph6, graph7, graph8, 'Logistic Regression', 'Naive Bayes', 'Random Forest', 'SVC', 'Decision Tree', sizeArray)}</div>
+      <div className="chartwrapper" style={{height: '100px', marginTop:'0px'}}>F1 score vs Relative Training Size %</div>
+      <br/><br/>
+      <div className="chartwrapper">{renderGraphs(graph1, graph4, graph9, graph10, graph11, 'Logistic Regression', 'Naive Bayes','Random Forest', 'SVC', 'Decision Tree', sizeArray)}</div>
+      <div className="chartwrapper" style={{height: '100px', marginTop:'0px'}}>Recall score vs Relative Training Size %</div>
+      <br/><br/>
+      <div className="chartwrapper">{renderGraphs(graph2, graph5, graph12, graph13, graph14, 'Logistic Regression', 'Naive Bayes', 'Random Forest', 'SVC', 'Decision Tree', sizeArray)}</div>
+      <div className="chartwrapper">Precision score vs Relative Training Size %</div>
+      <br/><br/>
     </div>
   );
 };

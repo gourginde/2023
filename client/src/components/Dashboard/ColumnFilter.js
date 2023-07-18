@@ -193,10 +193,8 @@
               />
             )}
       
-            <div className="button-container">
-              <button onClick={this.handleApply}>Apply</button>
-            </div>
-      
+            <button className="button" onClick={this.handleApply}>Apply</button>
+                <br/>
             {topRows.length > 0 && (
               <table className="csv-table">
                 <thead>

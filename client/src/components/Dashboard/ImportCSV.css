@@ -1,22 +1,28 @@
-
 .container {
-
   max-width: 800px;
-  margin: 10 auto;
+  margin: 10px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-bottom: 40px;
+  margin-top: 100px;
   color: #222222;
-  width: 800px;
+}
+
+.App.night .container {
+  color: white; 
 }
 
 .section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
+
 .button {
-  width: 200px; 
+  width: 250px;
   height: 50px;
   background-color: #28a9e2;
   color: white;
@@ -31,65 +37,7 @@
 }
 
 .button:focus {
-  outline: none; 
-}
-
-
-.input-section input[type="file"] {
-  margin-right: 10px;
-}
-
-.input-section button {
-  width: 100px;
-  height: 40px;
-  background-color: #28a9e2;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
-  cursor: pointer;
-}
-
-.input-section button:hover {
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.input-section button:focus {
-  outline: none; /* Remove focus outline */
-}
-
-.slider-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.result {
-  margin-top: 10px;
-}
-
-
-.graphs-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.graph-section {
-  flex-basis: 100%;
-}
-
-
-.section {
-  width: 45%;
-  margin: 10px;
-  padding: 20px;
-  border: 1px solid #28a9e2;
-  border-radius: 5px;
-}
-
-.section h2 {
-  font-size: 20px;
+  outline: none;
 }
 
 .input-section {
@@ -102,14 +50,63 @@
   margin-right: 10px;
 }
 
-.result {
-  margin-top: 20px;
+.input-section button {
+  width: 100px;
+  height: 40px;
+  background-color: #28a9e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+.App.night .input-section button {
+  color: white; 
+  background-color: white;
+  color: black;
 }
 
-.result p {
+.input-section button:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.input-section button:focus {
+  outline: none;
+}
+
+.box {
+  border: 1px solid #28a9e2;
+  border-radius: 5px;
+  padding: 20px;
+  margin-right: 20px;
+}
+.App.night .box {
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 20px;
+  margin-right: 20px;
+}
+
+.small-text {
   font-size: 14px;
 }
 
+.medium-text {
+  font-size: 16px;
+}
 
+.large-text {
+  font-size: 18px;
+}
 
+.small-button {
+  font-size: 14px;
+}
 
+.medium-button {
+  font-size: 16px;
+}
+
+.large-button {
+  font-size: 18px;
+}
