@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import Dashboard from './Dashboard'; // Import the Dashboard component
-import ImportCSV from './ImportCSV';
 
 function Login() {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -12,8 +10,10 @@ function Login() {
   };
 
   const handleLogin = () => {
-    // Perform validation against the provided credentials
-    if (credentials.username === 'gouri' && credentials.password === 'gouri') {
+    const usernameFromEnv = process.env.REACT_APP_USERNAME;
+    const passwordFromEnv = process.env.REACT_APP_PASSWORD;
+
+    if (credentials.username === usernameFromEnv && credentials.password === passwordFromEnv) {
       setAuthenticated(true);
     } else {
       setAuthenticated(false);
@@ -24,14 +24,24 @@ function Login() {
     <div>
       {!authenticated ? (
         <div>
-          <input type="text" name="username" value={credentials.username} onChange={handleCredentialsChange} placeholder="Username" />
-          <input type="password" name="password" value={credentials.password} onChange={handleCredentialsChange} placeholder="Password" />
+          <input
+            type="text"
+            name="username"
+            value={credentials.username}
+            onChange={handleCredentialsChange}
+            placeholder="Username"
+          />
+          <input
+            type="password"
+            name="password"
+            value={credentials.password}
+            onChange={handleCredentialsChange}
+            placeholder="Password"
+          />
           <button onClick={handleLogin}>Login</button>
         </div>
       ) : (
-        <div>
-          
-        </div>
+        <div></div>
       )}
     </div>
   );
