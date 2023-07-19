@@ -81,7 +81,7 @@ const ROI_graphs = () => {
           position: 'left',
           suggestedMin: 0,
           suggestedMax: 1,
-          id: 'left-axis', // Assign an ID to the left y-axis
+          id: 'left-axis', 
         },
         y1: {
           title: {
@@ -91,7 +91,7 @@ const ROI_graphs = () => {
           position: 'right',
           suggestedMin: 0,
           suggestedMax: 100,
-          id: 'right-axis', // Assign an ID to the right y-axis
+          id: 'right-axis', 
         },
       },
       elements: {
