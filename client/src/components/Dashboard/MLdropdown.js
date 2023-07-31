@@ -14,7 +14,7 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
   ];
 
   const learningAlgo = [
-    { label: 'Weekly Supervised Model', value: 'weeklySupervised' },
+    { label: 'Supervised Model', value: 'supervised' },
     { label: 'Active Learning', value: 'activeLearning' },
   ];
 
@@ -33,12 +33,13 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
     console.log('Selected option:', selectedValue);
     onLearningSelect(selectedValue);
 
-    if (selectedValue === 'weeklySupervised') {
+    if (selectedValue === 'supervised') {
       try {
         const response = await axios.post('http://44.201.124.234:5000/weekly-supervised');
         console.log(response.data);
+
         if (response.data.success) {
-          setLearning(response.data.testCheck);
+          setLearning('supervised');
         }
       } catch (error) {
         console.error(error);
@@ -48,7 +49,7 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
         const response = await axios.post('http://44.201.124.234:5000/active-learning');
         console.log(response.data);
         if (response.data.success) {
-          setLearning(response.data.testCheck);
+          setLearning('activeLearning');
         }
       } catch (error) {
         console.error(error);
@@ -154,54 +155,66 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
   };
 
   return (
+    <>
+    <div className="text" style={{ fontSize: '38px'}}>
+        ML Models<br/><br/>
+    </div>
     <div className="ml-dropdown-container">
-      <div className="ml-models">
-        <br />
-        <div className="text" style={{ fontSize: '38px', textAlign: 'center' }}>
-          ML Models
-        </div>
-        <br />
-
+      <div className="ml-models" style={{color: '#28a9e2'}}>
         {/* learning */}
         <LearningDropdown options={learningAlgo} onSelect={handleLearningSelect} />
-
-        {/* supervised models */}
-        <br />
-        <div className="text">Supervised Models</div>
-        <br />
-        <br />
+        {learning === 'supervised' && (
+        /* supervised models and report */
+        <React.Fragment>
+          <br/><br/>
+        <div className="text" style={{ fontSize: '35px', textAlign: 'center', color: '#28a9e2' }}>Supervised Models</div><br/><br/>
+     
         <Dropdown options={options} onSelect={handleOptionSelect} />
-      </div>
-      {report && (
-        <div className="classification-report">
-          <div className="report-content">
-            <div className="report-tile">
-              <div className="report-tile-title">Accuracy</div>
-              <div className="report-tile-value">{accuracy}</div>
-            </div>
-            <div className="report-tile">
-              <div className="report-tile-title">F1 Score</div>
-              <div className="report-tile-value">{f1_score}</div>
-            </div>
-            <div className="report-tile">
-              <div className="report-tile-title">Execution Time</div>
-              <div className="report-tile-value">{stopTime} seconds</div>
-            </div>
-            <pre>
-              <u>
-                <b>Classification Report</b>
-              </u>
-              <br />
-              <br />
-              {report}
-            </pre>
+        {report && (
+          <div className="classification-report">
+            <div className="report-content">
+              <div className="report-tile">
+                <div className="report-tile-title">Accuracy</div>
+                <div className="report-tile-value">{accuracy}</div>
+              </div>
+              <div className="report-tile">
+                <div className="report-tile-title">F1 Score</div>
+                <div className="report-tile-value">{f1_score}</div>
+              </div>
+              <div className="report-tile">
+                <div className="report-tile-title">Execution Time</div>
+                <div className="report-tile-value">{stopTime} seconds</div>
+              </div><br/><hr/>
+              <pre>
+                <u>
+                  <b>Classification Report</b>
+                </u>
+                <br />
+                <br />
+                {report}<br/><hr/>
+              </pre>
 
-            <img src={graph} />
-            <img src={confusionMatrix} />
+              <img src={graph} />
+              <img src={confusionMatrix} />
+            </div>
           </div>
+
+      )}
+        </React.Fragment>
+      )}
+        
+        {learning === 'activeLearning' && (
+        /* active learning models */
+        <div>
+          <br/><br/>
+          <div className="text" style={{ fontSize: '35px', color: '#28a9e2', marginLeft:'410px' }}>Active Learning</div>
+          
         </div>
       )}
-    </div>
+      </div>
+     
+       
+    </div></>
   );
 };
 
