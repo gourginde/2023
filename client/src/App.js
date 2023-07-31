@@ -8,11 +8,10 @@ import DependencyGraphs from './components/Dashboard/DependencyGraphs';
 import ROI from './components/Dashboard/ROI_analysis';
 import ProgressBar from './components/Dashboard/ProgressBar';
 import Navbar from './components/Navbar/Navbar';
-import ReactGA from "react-ga";
 import './App.css';
 
-const TRACKING_ID = "UA-280046123-1";
-ReactGA.initialize(TRACKING_ID);
+// const TRACKING_ID = "UA-280046123-1";
+// ReactGA.initialize(TRACKING_ID);
 function App() {
   const [showOtherPage, setShowOtherPage] = useState(false);
   const [showContactPage, setShowContactPage] = useState(false);
