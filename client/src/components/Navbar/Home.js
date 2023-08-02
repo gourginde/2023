@@ -5,13 +5,9 @@ const Home = ({}) => {
 
   return (
   <div className='home'>
-      <div className='title'>AutoROI</div>
+      <div className='title'>Beyond accuracy ROI of Data Analytics</div>
       <div className='textData' style={{marginBottom:'30px'}}>
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum."
+      Most Machine Learning (ML) solutions are evaluated only based on accuracy. However, ML algorithms for a given problem generally require higher computational resources than classical algorithms for the same problem. In addition, these algorithms also need large training datasets, which tends to become an effort and cost-intensive aspect. Given the above issues, this research provided a more profound outlook on the ROI (Return on Investment) of data analytics and the tradeoff between cost and benefit for an ML selection. Essentially, we tried to answer the question, “How much data analytics is enough?” and provided a rough estimate of the cost-benefit of using an ML-based solution. This research work proposed looking beyond accuracy measures and considering Return on Investment (ROI) as an additional criterion to evaluate conventional and complex ML models (such as Semisupervised and Deep Learning (DL)).
       </div>
 
 
