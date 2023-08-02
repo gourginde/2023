@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: flex-start;
   height: 100px;
-  width: 700px;
+  width: 900px;
   padding: 5px;
   margin-left: 10px;
 }
@@ -31,13 +31,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 70px;
-  width: 70px; /* Update width to match height */
-  border-color: #ff7f78; /* Set border color */
+  height: 50px;
+  width: 1000px;
+  border: 1px solid ;
   color: black;
-  background-color: #ff7f78;
-  border-radius: 50%;
+  background-color: lightgray;
+  border-radius: 5%;
   margin-left: 60px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
 }
 
 
@@ -106,16 +107,16 @@
   left: 40%;
   transform: translate(-50%, -50%);
   font-size: 14px;
-  color: #AFD88D;
+  color: #ff7f78;
   font-weight: bold;
 }
 
 .App.night .progressbar__text {
-  color: white; /* Set text color to white in night theme */
+  color: white; 
 }
 
 .completion-status {
-  color: #28a9e2;
+  color: #ff7f78;
   font-weight: bold;
   margin-top: 0px;
   font-size: 16px;
@@ -141,7 +142,7 @@
 
   .step {
     width: 70px; 
-    height: 70px; 
+    height: 50px; 
     margin-left: 30px; 
   }
 
@@ -179,7 +180,7 @@
 
   .step {
     width: 50px; /* Adjusted size */
-    height: 50px; /* Adjusted size */
+    height: 30px; /* Adjusted size */
     margin-left: 30px; /* Adjusted margin */
   }
 
@@ -217,7 +218,7 @@
 
   .step {
     width: 40px; /* Adjusted size */
-    height: 40px; /* Adjusted size */
+    height: 20px; /* Adjusted size */
     margin-left: 20px; /* Adjusted margin */
   }
 
