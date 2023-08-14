@@ -5,7 +5,7 @@ const Contact = ({}) => {
 
   const professorName = "Dr. Gouri Deshpande";
   const uni = "University of Calgary";
-  const dept = "Deptartment of Electrical and Software Engineering";
+  const dept = "Department of Electrical and Software Engineering";
   const contactDetails = "Email: gouri.deshpande@ucalgary.ca";
   const professorImageURL = "./gouri.jpg"; 
 
@@ -14,7 +14,6 @@ const Contact = ({}) => {
     color: 'gray',
     paddingLeft: '20px'
   };
-
   const students = [
     {
       name: "Noopur Zambare",
@@ -72,7 +71,7 @@ const Contact = ({}) => {
               <strong style={{color:'black', fontSize:'20px'}}>{student.name}</strong>
                 <ul style={{fontSize: '18px',color: 'gray',}}>       
                   <li>{student.project}</li>        
-                  <li>{student.institute}</li>
+          
                   
                 </ul>
               </div>
