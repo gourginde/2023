@@ -18,7 +18,7 @@ const ActiveLearning = () => {
   const [moreContentVisible, setMoreContentVisible] = useState(false); // state to control visibility of "more" content
 
   const handleSendToServer = async () => {
-    const response = await axios.post('http://127.0.0.1:5000/activeLearning', {
+    const response = await axios.post('/activeLearning', {
       threshold: threshold,
       max_iterations: maxIterations,
       resampling: resampling,

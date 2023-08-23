@@ -6,7 +6,7 @@
 .classification-report {
   padding: 1px;
   color: #222222;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
   margin-left: 80px;
   margin-top: 50px;
   width: 1000px;
@@ -19,7 +19,7 @@
   margin-top: 10px;
 }
 .App.night .text {
-  color: white; 
+  color: white;
   font-size: 25px;
   font-weight: bold;
 }
@@ -86,4 +86,3 @@
 .report-tile-value {
   font-size: 16px;
 }
-
