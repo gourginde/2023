@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Dropdown from './GridDropdown';
+import ActiveLearning from './ActiveLearning';
 import LearningDropdown from './Learning';
 import axios from 'axios';
 import './MLdropdown.css'
@@ -35,7 +36,7 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
 
     if (selectedValue === 'supervised') {
       try {
-        const response = await axios.post('http://44.201.124.234:5000/weekly-supervised');
+        const response = await axios.post('/weekly-supervised');
         console.log(response.data);
 
         if (response.data.success) {
@@ -46,7 +47,7 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
       }
     } else if (selectedValue === 'activeLearning') {
       try {
-        const response = await axios.post('http://44.201.124.234:5000/active-learning');
+        const response = await axios.post('/active-learning');
         console.log(response.data);
         if (response.data.success) {
           setLearning('activeLearning');
@@ -63,7 +64,7 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
 
     if (selectedValue === 'logistic_regression') {
       try {
-        const response = await axios.post('http://44.201.124.234:5000/logistic-regression');
+        const response = await axios.post('/logistic-regression');
         console.log(response.data);
         if (response.data.success) {
           setReport(response.data.report);
@@ -81,7 +82,7 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
       }
     } else if (selectedValue === 'naive_bayes') {
       try {
-        const response = await axios.post('http://44.201.124.234:5000/naive-bayes');
+        const response = await axios.post('/naive-bayes');
         console.log(response.data);
         if (response.data.success) {
           setReport(response.data.report);
@@ -99,7 +100,7 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
       }
     } else if (selectedValue === 'random_forest') {
       try {
-        const response = await axios.post('http://44.201.124.234:5000/random-forest');
+        const response = await axios.post('/random-forest');
         console.log(response.data);
         if (response.data.success) {
           setReport(response.data.report);
@@ -117,7 +118,7 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
       }
     } else if (selectedValue === 'support_vector_machine') {
       try {
-        const response = await axios.post('http://44.201.124.234:5000/support-vector-machine');
+        const response = await axios.post('/support-vector-machine');
         console.log(response.data);
         if (response.data.success) {
           setReport(response.data.report);
@@ -135,7 +136,7 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
       }
     } else if (selectedValue === 'decision_tree') {
       try {
-        const response = await axios.post('http://44.201.124.234:5000/decision-tree');
+        const response = await axios.post('/decision-tree');
         console.log(response.data);
         if (response.data.success) {
           setReport(response.data.report);
@@ -155,66 +156,65 @@ const MLdropdown = ({ onModelSelect, onLearningSelect, trainData, testData }) =>
   };
 
   return (
-    <>
-    <div className="text" style={{ fontSize: '38px'}}>
-        ML Models<br/><br/>
-    </div>
-    <div className="ml-dropdown-container">
-      <div className="ml-models" style={{color: '#28a9e2'}}>
-        {/* learning */}
-        <LearningDropdown options={learningAlgo} onSelect={handleLearningSelect} />
-        {learning === 'supervised' && (
-        /* supervised models and report */
-        <React.Fragment>
-          <br/><br/>
-        <div className="text" style={{ fontSize: '35px', textAlign: 'center', color: '#28a9e2' }}>Supervised Models</div><br/><br/>
-     
-        <Dropdown options={options} onSelect={handleOptionSelect} />
-        {report && (
-          <div className="classification-report">
-            <div className="report-content">
-              <div className="report-tile">
-                <div className="report-tile-title">Accuracy</div>
-                <div className="report-tile-value">{accuracy}</div>
-              </div>
-              <div className="report-tile">
-                <div className="report-tile-title">F1 Score</div>
-                <div className="report-tile-value">{f1_score}</div>
-              </div>
-              <div className="report-tile">
-                <div className="report-tile-title">Execution Time</div>
-                <div className="report-tile-value">{stopTime} seconds</div>
-              </div><br/><hr/>
-              <pre>
+      <>
+        <div className="text" style={{ fontSize: '38px'}}>
+          ML Models<br/><br/>
+        </div>
+        <div className="ml-dropdown-container">
+          <div className="ml-models" style={{color: '#28a9e2'}}>
+            {/* learning */}
+            <LearningDropdown options={learningAlgo} onSelect={handleLearningSelect} />
+            {learning === 'supervised' && (
+                /* supervised models and report */
+                <React.Fragment>
+                  <br/><br/>
+                  <div className="text" style={{ fontSize: '35px', textAlign: 'center', color: '#28a9e2' }}>Supervised Models</div><br/><br/>
+
+                  <Dropdown options={options} onSelect={handleOptionSelect} />
+                  {report && (
+                      <div className="classification-report">
+                        <div className="report-content">
+                          <div className="report-tile">
+                            <div className="report-tile-title">Accuracy</div>
+                            <div className="report-tile-value">{accuracy}</div>
+                          </div>
+                          <div className="report-tile">
+                            <div className="report-tile-title">F1 Score</div>
+                            <div className="report-tile-value">{f1_score}</div>
+                          </div>
+                          <div className="report-tile">
+                            <div className="report-tile-title">Execution Time</div>
+                            <div className="report-tile-value">{stopTime} seconds</div>
+                          </div><br/><hr/>
+                          <pre>
                 <u>
                   <b>Classification Report</b>
                 </u>
                 <br />
                 <br />
-                {report}<br/><hr/>
+                            {report}<br/><hr/>
               </pre>
 
-              <img src={graph} />
-              <img src={confusionMatrix} />
-            </div>
+                          <img src={graph} />
+                          <img src={confusionMatrix} />
+                        </div>
+                      </div>
+
+                  )}
+                </React.Fragment>
+            )}
+
+            {/* Conditionally render Semi-Supervised Models */}
+            {learning === 'activeLearning' && (
+                <>
+                  <h3 style={{color:"black"}}>Semi - Supervised Models</h3>
+                  <ActiveLearning />
+                </>
+            )}
           </div>
 
-      )}
-        </React.Fragment>
-      )}
-        
-        {learning === 'activeLearning' && (
-        /* active learning models */
-        <div>
-          <br/><br/>
-          <div className="text" style={{ fontSize: '35px', color: '#28a9e2', marginLeft:'410px' }}>Active Learning</div>
-          
-        </div>
-      )}
-      </div>
-     
-       
-    </div></>
+
+        </div></>
   );
 };
 
