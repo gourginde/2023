@@ -11,7 +11,7 @@ const ActiveLearning = () => {
   const [testSize, setTestSize] = useState(0.2);
   const [manualAnnotationsCount, setManualAnnotationsCount] = useState(12);
   const [comments] = useState('-RF_LC-12-12');
-  const [fileContent, setFileContent] = useState(''); // new state to hold file content
+  const [fileContent, setFileContent] = useState(''); 
   const [iterationIndex, setIterationIndex] = useState(1); // start at iteration 1
   const [displayContent, setDisplayContent] = useState(''); // content to display
   const [manuallyAnnotatedData, setManuallyAnnotatedData] = useState(''); // new state to hold manually annotated data
