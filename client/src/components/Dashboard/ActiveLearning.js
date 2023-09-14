@@ -47,7 +47,7 @@ const ActiveLearning = () => {
 
     if (direction === 'next' && !delimiterExists) {
       // If "Next" is pressed and delimiter for the new iteration doesn't exist, update the file content.
-      const response = await axios.post('http://127.0.0.1:5000/next');
+      const response = await axios.post('http://44.201.124.234:5000/next');
       newFileContent = response.data.fileContent;
       setFileContent(newFileContent);
     }
