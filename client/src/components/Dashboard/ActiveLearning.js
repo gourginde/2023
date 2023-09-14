@@ -13,7 +13,7 @@ const ActiveLearning = () => {
   const [comments] = useState('-RF_LC-12-12');
   const [fileContent, setFileContent] = useState(''); // new state to hold file content
   const [iterationIndex, setIterationIndex] = useState(1); // start at iteration 1
-  const [displayContent, setDisplayContent] = useState(''); // content to display
+  const [displayContent, setDisplayContent] = useState(''); 
   const [manuallyAnnotatedData, setManuallyAnnotatedData] = useState(''); // new state to hold manually annotated data
   const [moreContentVisible, setMoreContentVisible] = useState(false); // state to control visibility of "more" content
 
