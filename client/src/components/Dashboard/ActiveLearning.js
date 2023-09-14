@@ -17,7 +17,6 @@ const ActiveLearning = () => {
   const [manuallyAnnotatedData, setManuallyAnnotatedData] = useState(''); // new state to hold manually annotated data
   const [moreContentVisible, setMoreContentVisible] = useState(false); // state to control visibility of "more" content
 
-
   const handleSubmit = async () => {
     const response = await axios.post('http://44.201.124.234:5000/activeLearning1', {
       threshold: threshold,
