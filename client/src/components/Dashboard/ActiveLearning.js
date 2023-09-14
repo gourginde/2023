@@ -58,7 +58,6 @@ const ActiveLearning = () => {
     setIterationIndex(newIndex);
     setMoreContentVisible(false);
   };
-
   const extractManuallyAnnotatedData = (fileContent, iteration) => {
     const lines = fileContent.split('\n');
     let count = 0;
