@@ -54,7 +54,6 @@ const ActiveLearning = () => {
     // Extract iteration content from either the existing file content or the new one fetched from the backend.
     const newIterationContent = extractIteration(newFileContent, newIndex);
     setDisplayContent(newIterationContent);
-
     setIterationIndex(newIndex);
     setMoreContentVisible(false);
   };
